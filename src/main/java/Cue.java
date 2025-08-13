@@ -9,7 +9,7 @@ public class Cue {
                 + " ▀█x▄▄▀  ▀█o▄▀█x  ▀█x▄▄▀ \n";
 
         div.print();
-        System.out.println("Hello from\n" + logo);
+        System.out.println("Hello, I'm\n" + logo + "\nWhat can I do for you?\n");
         div.print();
     }
 }
