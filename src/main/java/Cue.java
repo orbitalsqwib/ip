@@ -11,5 +11,7 @@ public class Cue {
         div.print();
         System.out.println("Hello, I'm\n" + logo + "\nWhat can I do for you?\n");
         div.print();
+        System.out.println("Bye. Hope to see you again soon!\n");
+        div.print();
     }
 }
