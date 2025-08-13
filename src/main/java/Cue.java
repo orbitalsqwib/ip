@@ -1,7 +1,7 @@
 import java.util.Scanner;
 
 import cue.divider.*;
-import cue.task.*;
+import cue.tasks.*;
 
 public class Cue {
     public static void main(String[] args) {
@@ -54,6 +54,42 @@ public class Cue {
                         }
 
                         System.out.println("  " + targetTask);
+                        div.print();
+                    } else if (input.startsWith("todo")) {
+                        Todo newTodo = new Todo(input.replace("todo", ""));
+                        tasks[nextInput++] = newTodo;
+
+                        System.out.println("Got it. I've added this task:");
+                        System.out.println("  " + newTodo);
+                        System.out.println("Now you have " + nextInput + " tasks in the list");
+                        div.print();
+                    } else if (input.startsWith("deadline")) {
+                        String[] inputArgs = input.replace("deadline", "").split(" /by ");
+                        Deadline newDeadline = new Deadline(inputArgs[0], inputArgs[1]);
+                        tasks[nextInput++] = newDeadline;
+
+                        System.out.println("Got it. I've added this task:");
+                        System.out.println("  " + newDeadline);
+                        System.out.println("Now you have " + nextInput + " tasks in the list");
+                        div.print();
+                    } else if (input.startsWith("event")) {
+                        String[] inputArgs = input.replace("event", "").split("/");
+                        String taskName = inputArgs[0].strip();
+                        String from = "";
+                        String to = "";
+                        for (int argIndex = 1; argIndex < inputArgs.length; argIndex++) {
+                            if (inputArgs[argIndex].startsWith("from")) {
+                                from = inputArgs[argIndex].replace("from ", "").strip();
+                            } else if (inputArgs[argIndex].startsWith("to")) {
+                                to = inputArgs[argIndex].replace("to ", "").strip();
+                            }
+                        }
+                        Event newEvent = new Event(taskName, from, to);
+                        tasks[nextInput++] = newEvent;
+
+                        System.out.println("Got it. I've added this task:");
+                        System.out.println("  " + newEvent);
+                        System.out.println("Now you have " + nextInput + " tasks in the list");
                         div.print();
                     } else {
                         tasks[nextInput++] = new Task(input);

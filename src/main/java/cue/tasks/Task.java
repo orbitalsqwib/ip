@@ -1,4 +1,4 @@
-package cue.task;
+package cue.tasks;
 
 public class Task {
     private boolean done;
