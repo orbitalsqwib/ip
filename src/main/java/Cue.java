@@ -32,6 +32,23 @@ public class Cue {
                     System.out.println(" " + (i+1) + ". " + tasks[i] + "\n");
                 }
                 div.print();
+            } else if (input.startsWith("mark") || input.startsWith("unmark")) {
+                String[] inputArgs = input.split(" ");
+
+                int targetIndex = Integer.parseInt(inputArgs[1]);
+                boolean isDone = input.startsWith("mark");
+                Task targetTask =  tasks[targetIndex - 1];
+
+               targetTask.setDone(isDone);
+
+                if (isDone) {
+                    System.out.println("Nice! I've marked this task as done:\n");
+                } else {
+                    System.out.println("OK, I've marked this task as not done yet:\n");
+                }
+
+                System.out.println("  " + targetTask + "\n");
+                div.print();
             } else {
                 tasks[nextInput++] = new Task(input);
                 System.out.println("added: " + input + "\n");
