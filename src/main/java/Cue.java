@@ -14,6 +14,9 @@ public class Cue {
         System.out.println("Hello, I'm\n" + logo + "\nWhat can I do for you?\n");
         div.print();
 
+        String[] inputs = new String[100];
+        int nextInput = 0;
+
         Scanner inputScanner = new Scanner(System.in);
         while (true) {
             System.out.print("me > ");
@@ -24,7 +27,8 @@ public class Cue {
             if (input.equals("bye")) {
                 break;
             } else {
-                System.out.println(input + "\n");
+                inputs[nextInput++] = input;
+                System.out.println("added: " + input + "\n");
                 div.print();
             }
         }
