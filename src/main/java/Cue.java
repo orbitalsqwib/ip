@@ -25,34 +25,42 @@ public class Cue {
             String input = inputScanner.nextLine().strip();
             div.print();
 
-            if (input.equals("bye")) {
-                isExit = true;
-            } else if (input.equals("list")) {
-                for (int i = 0; i < nextInput; i++) {
-                    System.out.println(" " + (i+1) + ". " + tasks[i]);
-                }
-                div.print();
-            } else if (input.startsWith("mark") || input.startsWith("unmark")) {
-                String[] inputArgs = input.split(" ");
+            switch (input) {
+                case "bye":
+                    isExit = true;
+                    break;
 
-                int targetIndex = Integer.parseInt(inputArgs[1]);
-                boolean isDone = input.startsWith("mark");
-                Task targetTask =  tasks[targetIndex - 1];
+                case "list":
+                    for (int i = 0; i < nextInput; i++) {
+                        System.out.println(" " + (i+1) + ". " + tasks[i]);
+                    }
+                    div.print();
+                    break;
 
-               targetTask.setDone(isDone);
+                default:
+                    if (input.startsWith("mark") || input.startsWith("unmark")) {
+                        String[] inputArgs = input.split(" ");
 
-                if (isDone) {
-                    System.out.println("Nice! I've marked this task as done:\n");
-                } else {
-                    System.out.println("OK, I've marked this task as not done yet:\n");
-                }
+                        int targetIndex = Integer.parseInt(inputArgs[1]);
+                        boolean isDone = input.startsWith("mark");
+                        Task targetTask =  tasks[targetIndex - 1];
 
-                System.out.println("  " + targetTask);
-                div.print();
-            } else {
-                tasks[nextInput++] = new Task(input);
-                System.out.println("added: " + input);
-                div.print();
+                        targetTask.setDone(isDone);
+
+                        if (isDone) {
+                            System.out.println("Nice! I've marked this task as done:\n");
+                        } else {
+                            System.out.println("OK, I've marked this task as not done yet:\n");
+                        }
+
+                        System.out.println("  " + targetTask);
+                        div.print();
+                    } else {
+                        tasks[nextInput++] = new Task(input);
+                        System.out.println("added: " + input);
+                        div.print();
+                    }
+                    break;
             }
         }
         inputScanner.close();
