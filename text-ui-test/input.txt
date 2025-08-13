@@ -1,0 +1,14 @@
+add basic task 1
+add basic task 2
+mark 2
+unmark 2
+todo another task
+list
+deadline this project /by soon
+event go to class tomorrow /from tomorrow morning /to tomorrow night
+list
+mark 3
+mark 4
+mark 5
+list
+bye
