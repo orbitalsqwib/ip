@@ -1,6 +1,7 @@
 import java.util.Scanner;
 
 import divider.*;
+import task.*;
 
 public class Cue {
     public static void main(String[] args) {
@@ -14,7 +15,7 @@ public class Cue {
         System.out.println("Hello, I'm\n" + logo + "\nWhat can I do for you?\n");
         div.print();
 
-        String[] inputs = new String[100];
+        Task[] tasks = new Task[100];
         int nextInput = 0;
 
         Scanner inputScanner = new Scanner(System.in);
@@ -28,11 +29,11 @@ public class Cue {
                 break;
             } else if (input.equals("list")) {
                 for (int i = 0; i < nextInput; i++) {
-                    System.out.println(" " + (i+1) + ". " + inputs[i] + "\n");
+                    System.out.println(" " + (i+1) + ". " + tasks[i] + "\n");
                 }
                 div.print();
             } else {
-                inputs[nextInput++] = input;
+                tasks[nextInput++] = new Task(input);
                 System.out.println("added: " + input + "\n");
                 div.print();
             }
