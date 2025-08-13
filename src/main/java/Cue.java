@@ -26,6 +26,11 @@ public class Cue {
 
             if (input.equals("bye")) {
                 break;
+            } else if (input.equals("list")) {
+                for (int i = 0; i < nextInput; i++) {
+                    System.out.println(" " + (i+1) + ". " + inputs[i] + "\n");
+                }
+                div.print();
             } else {
                 inputs[nextInput++] = input;
                 System.out.println("added: " + input + "\n");
