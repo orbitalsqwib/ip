@@ -1,4 +1,4 @@
-package divider;
+package cue.divider;
 
 /**
  * Generates and prints visual dividers.

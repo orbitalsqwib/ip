@@ -1,7 +1,7 @@
 import java.util.Scanner;
 
-import divider.*;
-import task.*;
+import cue.divider.*;
+import cue.task.*;
 
 public class Cue {
     public static void main(String[] args) {
