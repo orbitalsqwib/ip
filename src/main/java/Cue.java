@@ -1,3 +1,5 @@
+import java.util.Scanner;
+
 import divider.*;
 
 public class Cue {
@@ -11,6 +13,23 @@ public class Cue {
         div.print();
         System.out.println("Hello, I'm\n" + logo + "\nWhat can I do for you?\n");
         div.print();
+
+        Scanner inputScanner = new Scanner(System.in);
+        while (true) {
+            System.out.print("me > ");
+            String input = inputScanner.nextLine().strip();
+            System.out.println();
+            div.print();
+
+            if (input.equals("bye")) {
+                break;
+            } else {
+                System.out.println(input + "\n");
+                div.print();
+            }
+        }
+        inputScanner.close();
+
         System.out.println("Bye. Hope to see you again soon!\n");
         div.print();
     }
