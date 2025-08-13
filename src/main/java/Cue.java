@@ -12,7 +12,7 @@ public class Cue {
                 + " ▀█x▄▄▀  ▀█o▄▀█x  ▀█x▄▄▀ \n";
 
         div.print();
-        System.out.println("Hello, I'm\n" + logo + "\nWhat can I do for you?\n");
+        System.out.println("Hello, I'm\n" + logo + "\nWhat can I do for you?");
         div.print();
 
         Task[] tasks = new Task[100];
@@ -23,14 +23,13 @@ public class Cue {
         while (!isExit) {
             System.out.print("me > ");
             String input = inputScanner.nextLine().strip();
-            System.out.println();
             div.print();
 
             if (input.equals("bye")) {
                 isExit = true;
             } else if (input.equals("list")) {
                 for (int i = 0; i < nextInput; i++) {
-                    System.out.println(" " + (i+1) + ". " + tasks[i] + "\n");
+                    System.out.println(" " + (i+1) + ". " + tasks[i]);
                 }
                 div.print();
             } else if (input.startsWith("mark") || input.startsWith("unmark")) {
@@ -48,17 +47,17 @@ public class Cue {
                     System.out.println("OK, I've marked this task as not done yet:\n");
                 }
 
-                System.out.println("  " + targetTask + "\n");
+                System.out.println("  " + targetTask);
                 div.print();
             } else {
                 tasks[nextInput++] = new Task(input);
-                System.out.println("added: " + input + "\n");
+                System.out.println("added: " + input);
                 div.print();
             }
         }
         inputScanner.close();
 
-        System.out.println("Bye. Hope to see you again soon!\n");
+        System.out.println("Bye. Hope to see you again soon!");
         div.print();
     }
 }

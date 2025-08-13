@@ -20,6 +20,7 @@ public class Divider {
         StringBuilder dividerBuilder = new StringBuilder(length);
 
         // generate the divider through the string builder
+        dividerBuilder.append('\n');
         for (int i = 0; i < length; i++) {
             dividerBuilder.append(dividerChar);
         }
