@@ -19,14 +19,15 @@ public class Cue {
         int nextInput = 0;
 
         Scanner inputScanner = new Scanner(System.in);
-        while (true) {
+        boolean isExit = false;
+        while (!isExit) {
             System.out.print("me > ");
             String input = inputScanner.nextLine().strip();
             System.out.println();
             div.print();
 
             if (input.equals("bye")) {
-                break;
+                isExit = true;
             } else if (input.equals("list")) {
                 for (int i = 0; i < nextInput; i++) {
                     System.out.println(" " + (i+1) + ". " + tasks[i] + "\n");
