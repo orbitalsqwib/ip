@@ -62,6 +62,17 @@ public class Cue {
 
                             System.out.println("  " + targetTask);
                             div.print();
+                        } else if (input.startsWith("delete")) {
+                            String[] inputArgs = input.split(" ");
+
+                            int targetIndex = Integer.parseInt(inputArgs[1]);
+                            Task targetTask = tasks.get(targetIndex - 1);
+                            tasks.remove(targetIndex - 1);
+
+                            System.out.println("OK, I've removed this task for you:");
+                            System.out.println("  " + targetTask);
+                            System.out.println("Now you have " + tasks.size() + " tasks in the list");
+                            div.print();
                         } else if (input.startsWith("todo")) {
                             Todo newTodo = new Todo(input.replace("todo", ""));
                             tasks.add(newTodo);
