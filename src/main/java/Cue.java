@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import cue.divider.*;
@@ -18,8 +19,7 @@ public class Cue {
         System.out.println("Hello, I'm\n" + logo + "\nWhat can I do for you?");
         div.print();
 
-        Task[] tasks = new Task[100];
-        int nextInput = 0;
+        ArrayList<Task> tasks = new ArrayList<>();
 
         Scanner inputScanner = new Scanner(System.in);
         boolean isExit = false;
@@ -35,8 +35,8 @@ public class Cue {
 
                     case "list":
                         System.out.println("Here are the tasks in your list:");
-                        for (int i = 0; i < nextInput; i++) {
-                            System.out.println(" " + (i+1) + ". " + tasks[i]);
+                        for (int i = 0; i < tasks.size(); i++) {
+                            System.out.println(" " + (i+1) + ". " + tasks.get(i));
                         }
                         div.print();
                         break;
@@ -50,7 +50,7 @@ public class Cue {
 
                             int targetIndex = Integer.parseInt(inputArgs[1]);
                             boolean isDone = input.startsWith("mark");
-                            Task targetTask =  tasks[targetIndex - 1];
+                            Task targetTask =  tasks.get(targetIndex - 1);
 
                             targetTask.setDone(isDone);
 
@@ -64,11 +64,11 @@ public class Cue {
                             div.print();
                         } else if (input.startsWith("todo")) {
                             Todo newTodo = new Todo(input.replace("todo", ""));
-                            tasks[nextInput++] = newTodo;
+                            tasks.add(newTodo);
 
                             System.out.println("Got it. I've added this task:");
                             System.out.println("  " + newTodo);
-                            System.out.println("Now you have " + nextInput + " tasks in the list");
+                            System.out.println("Now you have " + tasks.size() + " tasks in the list");
                             div.print();
                         } else if (input.startsWith("deadline")) {
                             String[] inputArgs = input.replace("deadline", "").split(" /by ");
@@ -80,11 +80,11 @@ public class Cue {
                             }
 
                             Deadline newDeadline = new Deadline(inputArgs[0], inputArgs[1]);
-                            tasks[nextInput++] = newDeadline;
+                            tasks.add(newDeadline);
 
                             System.out.println("Got it. I've added this task:");
                             System.out.println("  " + newDeadline);
-                            System.out.println("Now you have " + nextInput + " tasks in the list");
+                            System.out.println("Now you have " + tasks.size() + " tasks in the list");
                             div.print();
                         } else if (input.startsWith("event")) {
                             String[] inputArgs = input.replace("event", "").split("/");
@@ -109,14 +109,14 @@ public class Cue {
                             }
 
                             Event newEvent = new Event(taskName, from, to);
-                            tasks[nextInput++] = newEvent;
+                            tasks.add(newEvent);
 
                             System.out.println("Got it. I've added this task:");
                             System.out.println("  " + newEvent);
-                            System.out.println("Now you have " + nextInput + " tasks in the list");
+                            System.out.println("Now you have " + tasks.size() + " tasks in the list");
                             div.print();
                         } else {
-                            tasks[nextInput++] = new Task(input);
+                            tasks.add(new Task(input));
                             System.out.println("added: " + input);
                             div.print();
                         }
