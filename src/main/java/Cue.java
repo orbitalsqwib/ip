@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import cue.data.SaveFile;
 import cue.divider.*;
 import cue.errors.CueException;
 import cue.errors.MissingArgumentException;
@@ -19,7 +20,7 @@ public class Cue {
         System.out.println("Hello, I'm\n" + logo + "\nWhat can I do for you?");
         div.print();
 
-        ArrayList<Task> tasks = new ArrayList<>();
+        ArrayList<Task> tasks = SaveFile.load();
 
         Scanner inputScanner = new Scanner(System.in);
         boolean isExit = false;
@@ -127,12 +128,11 @@ public class Cue {
                             System.out.println("Now you have " + tasks.size() + " tasks in the list");
                             div.print();
                         } else {
-                            tasks.add(new Task(input));
-                            System.out.println("added: " + input);
-                            div.print();
+                            throw new UnknownCommandException();
                         }
                         break;
                 }
+                SaveFile.save(tasks);
             } catch (CueException error) {
                 System.out.println(error.getMessage());
                 div.print();

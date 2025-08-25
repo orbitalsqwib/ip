@@ -1,5 +1,5 @@
-add basic task 1
-add basic task 2
+todo add basic task 1
+todo add basic task 2
 mark 2
 unmark 2
 todo another task

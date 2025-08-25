@@ -15,14 +15,18 @@ What can I do for you?
 me > 
 ────────────────────────────────────────────────────────────────────────────────
 
-added: add basic task 1
+Got it. I've added this task:
+  [T] [ ]  add basic task 1
+Now you have 1 tasks in the list
 
 ────────────────────────────────────────────────────────────────────────────────
 
 me > 
 ────────────────────────────────────────────────────────────────────────────────
 
-added: add basic task 2
+Got it. I've added this task:
+  [T] [ ]  add basic task 2
+Now you have 2 tasks in the list
 
 ────────────────────────────────────────────────────────────────────────────────
 
@@ -31,7 +35,7 @@ me >
 
 Nice! I've marked this task as done:
 
-  [x] add basic task 2
+  [T] [x]  add basic task 2
 
 ────────────────────────────────────────────────────────────────────────────────
 
@@ -40,7 +44,7 @@ me >
 
 OK, I've marked this task as not done yet:
 
-  [ ] add basic task 2
+  [T] [ ]  add basic task 2
 
 ────────────────────────────────────────────────────────────────────────────────
 
@@ -57,8 +61,8 @@ me >
 ────────────────────────────────────────────────────────────────────────────────
 
 Here are the tasks in your list:
- 1. [ ] add basic task 1
- 2. [ ] add basic task 2
+ 1. [T] [ ]  add basic task 1
+ 2. [T] [ ]  add basic task 2
  3. [T] [ ]  another task
 
 ────────────────────────────────────────────────────────────────────────────────
@@ -85,8 +89,8 @@ me >
 ────────────────────────────────────────────────────────────────────────────────
 
 Here are the tasks in your list:
- 1. [ ] add basic task 1
- 2. [ ] add basic task 2
+ 1. [T] [ ]  add basic task 1
+ 2. [T] [ ]  add basic task 2
  3. [T] [ ]  another task
  4. [D] [ ]  this project (by: soon)
  5. [E] [ ] go to class tomorrow (from: tomorrow morning to: tomorrow night)
@@ -124,8 +128,8 @@ me >
 ────────────────────────────────────────────────────────────────────────────────
 
 Here are the tasks in your list:
- 1. [ ] add basic task 1
- 2. [ ] add basic task 2
+ 1. [T] [ ]  add basic task 1
+ 2. [T] [ ]  add basic task 2
  3. [T] [x]  another task
  4. [D] [x]  this project (by: soon)
  5. [E] [x] go to class tomorrow (from: tomorrow morning to: tomorrow night)
@@ -145,8 +149,8 @@ me >
 ────────────────────────────────────────────────────────────────────────────────
 
 Here are the tasks in your list:
- 1. [ ] add basic task 1
- 2. [ ] add basic task 2
+ 1. [T] [ ]  add basic task 1
+ 2. [T] [ ]  add basic task 2
  3. [D] [x]  this project (by: soon)
  4. [E] [x] go to class tomorrow (from: tomorrow morning to: tomorrow night)
 
