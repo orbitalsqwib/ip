@@ -32,8 +32,24 @@ public class StringDateTime {
         }
     }
 
+    public boolean isBefore(LocalDateTime dateTime) {
+        return !this.isPlainString && this.parsedDateTime.isBefore(dateTime);
+    }
+
+    public boolean isAfter(LocalDateTime dateTime) {
+        return !this.isPlainString && this.parsedDateTime.isAfter(dateTime);
+    }
+
+    public boolean isEqual(LocalDateTime dateTime) {
+        return !this.isPlainString && this.parsedDateTime.isEqual(dateTime);
+    }
+
     public String encode() {
         return rawDateTime;
+    }
+
+    public LocalDateTime toLocalDateTime() {
+        return parsedDateTime;
     }
 
     @Override

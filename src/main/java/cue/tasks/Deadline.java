@@ -1,5 +1,7 @@
 package cue.tasks;
 
+import java.time.LocalDateTime;
+
 import cue.datetime.StringDateTime;
 
 public class Deadline extends Task{
@@ -18,5 +20,10 @@ public class Deadline extends Task{
     @Override
     public String encodeData() {
         return deadline.encode();
+    }
+
+    @Override
+    public boolean isActiveOn(LocalDateTime dateTime) {
+        return deadline.isBefore(dateTime) || deadline.isEqual(dateTime);
     }
 }

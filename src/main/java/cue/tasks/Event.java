@@ -1,5 +1,7 @@
 package cue.tasks;
 
+import java.time.LocalDateTime;
+
 import cue.datetime.StringDateTime;
 
 public class Event extends Task {
@@ -20,5 +22,10 @@ public class Event extends Task {
     @Override
     public String encodeData() {
         return from.encode() + " , " + to.encode();
+    }
+
+    @Override
+    public boolean isActiveOn(LocalDateTime dateTime) {
+        return (from.isBefore(dateTime) || from.isEqual(dateTime)) && (to.isAfter(dateTime) || to.isEqual(dateTime));
     }
 }
