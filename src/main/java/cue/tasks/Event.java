@@ -1,13 +1,17 @@
 package cue.tasks;
 
+import java.time.LocalDateTime;
+
+import cue.datetime.StringDateTime;
+
 public class Event extends Task {
-    private String from;
-    private String to;
+    private StringDateTime from;
+    private StringDateTime to;
 
     public Event(String taskName, String from, String to) {
         super(taskName);
-        this.from = from;
-        this.to = to;
+        this.from = new StringDateTime(from);
+        this.to = new StringDateTime(to);
     }
 
     @Override
@@ -17,6 +21,11 @@ public class Event extends Task {
 
     @Override
     public String encodeData() {
-        return from + " , " + to;
+        return from.encode() + " , " + to.encode();
+    }
+
+    @Override
+    public boolean isActiveOn(LocalDateTime dateTime) {
+        return (from.isBefore(dateTime) || from.isEqual(dateTime)) && (to.isAfter(dateTime) || to.isEqual(dateTime));
     }
 }

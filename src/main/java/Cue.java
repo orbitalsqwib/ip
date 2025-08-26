@@ -2,6 +2,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import cue.data.SaveFile;
+import cue.datetime.StringDateTime;
 import cue.divider.*;
 import cue.errors.CueException;
 import cue.errors.MissingArgumentException;
@@ -63,6 +64,30 @@ public class Cue {
 
                             System.out.println("  " + targetTask);
                             div.print();
+                        } else if (input.startsWith("summary")) {
+                            String[] inputArgs = input.split(" ");
+
+                            if (inputArgs.length < 2) {
+                                throw new MissingArgumentException("target date/time");
+                            }
+
+                            StringDateTime targetDate = new StringDateTime(inputArgs[1]);
+
+                            if (targetDate.toLocalDateTime() == null) {
+                                System.out.println(
+                                    "Sorry, please use the format ([]: optional fields): summary yyyy-MM-dd[@HHmm]");
+                            } else {
+                                System.out.println("Here are the tasks for " + targetDate + ":");
+
+                                // filter all relevant tasks
+                                for (int i = 0; i < tasks.size(); i++) {
+                                    if (tasks.get(i).isActiveOn(targetDate.toLocalDateTime())) {
+                                        System.out.println(" " + (i+1) + ". " + tasks.get(i));
+                                    }
+                                }
+
+                               div.print();
+                            }
                         } else if (input.startsWith("delete")) {
                             String[] inputArgs = input.split(" ");
 

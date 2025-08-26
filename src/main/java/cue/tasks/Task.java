@@ -1,5 +1,7 @@
 package cue.tasks;
 
+import java.time.LocalDateTime;
+
 public abstract class Task {
     private boolean done;
     private String taskName;
@@ -11,6 +13,10 @@ public abstract class Task {
 
     public void setDone(boolean isDone) {
         this.done = isDone;
+    }
+
+    public boolean isDone() {
+        return this.done;
     }
 
     @Override
@@ -38,4 +44,9 @@ public abstract class Task {
      * @return A string containing specialised data of the associated task, separated by commas.
      */
     public abstract String encodeData();
+
+    /**
+     * Checks if the task is active on a specific date/time
+     */
+    public abstract boolean isActiveOn(LocalDateTime dateTime);
 }

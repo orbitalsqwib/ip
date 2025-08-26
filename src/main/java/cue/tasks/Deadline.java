@@ -1,11 +1,15 @@
 package cue.tasks;
 
+import java.time.LocalDateTime;
+
+import cue.datetime.StringDateTime;
+
 public class Deadline extends Task{
-    private String deadline;
+    private StringDateTime deadline;
 
     public Deadline(String taskName, String deadline) {
         super(taskName);
-        this.deadline = deadline;
+        this.deadline = new StringDateTime(deadline);
     }
 
     @Override
@@ -15,6 +19,11 @@ public class Deadline extends Task{
 
     @Override
     public String encodeData() {
-        return deadline;
+        return deadline.encode();
+    }
+
+    @Override
+    public boolean isActiveOn(LocalDateTime dateTime) {
+        return deadline.isBefore(dateTime) || deadline.isEqual(dateTime);
     }
 }
