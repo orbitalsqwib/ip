@@ -1,0 +1,51 @@
+package cue.datetime;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
+import java.time.format.DateTimeParseException;
+import java.time.temporal.ChronoField;
+
+public class StringDateTime {
+    private boolean isPlainString;
+    private LocalDateTime parsedDateTime;
+    private String rawDateTime;
+
+    private static DateTimeFormatter PARSE_FORMAT = new DateTimeFormatterBuilder()
+        .appendPattern("yyyy-MM-dd[@HHmm]")
+        .parseDefaulting(ChronoField.HOUR_OF_DAY, 0)
+        .parseDefaulting(ChronoField.MINUTE_OF_HOUR, 0)
+        .toFormatter();
+
+    private static DateTimeFormatter PRINT_FORMAT_W_TIME = DateTimeFormatter.ofPattern("MMM d yyyy @ hh:mma");
+    private static DateTimeFormatter PRINT_FORMAT = DateTimeFormatter.ofPattern("MMM d yyyy");
+
+    public StringDateTime(String rawDateTime) {
+        this.rawDateTime = rawDateTime;
+        this.parsedDateTime = null;
+
+        try {
+            this.parsedDateTime = LocalDateTime.parse(rawDateTime, PARSE_FORMAT);
+            this.isPlainString = false;
+        } catch(DateTimeParseException err) {
+            this.isPlainString = true;
+        }
+    }
+
+    public String encode() {
+        return rawDateTime;
+    }
+
+    @Override
+    public String toString() {
+        if (isPlainString || parsedDateTime == null) {
+            return rawDateTime;
+        }
+
+        if (parsedDateTime.getHour() != 0 && parsedDateTime.getMinute() != 0) {
+            return parsedDateTime.format(PRINT_FORMAT_W_TIME);
+        }
+
+        return parsedDateTime.format(PRINT_FORMAT);
+    }
+}
