@@ -75,7 +75,7 @@ public class Cue {
                             System.out.println("Now you have " + tasks.size() + " tasks in the list");
                             div.print();
                         } else if (input.startsWith("todo")) {
-                            Todo newTodo = new Todo(input.replace("todo", ""));
+                            Todo newTodo = new Todo(input.replace("todo", "").strip());
                             tasks.add(newTodo);
 
                             System.out.println("Got it. I've added this task:");
@@ -91,7 +91,7 @@ public class Cue {
                                 "Please specify the deadline using `... /by [date] ...`.");
                             }
 
-                            Deadline newDeadline = new Deadline(inputArgs[0], inputArgs[1]);
+                            Deadline newDeadline = new Deadline(inputArgs[0].strip(), inputArgs[1].strip());
                             tasks.add(newDeadline);
 
                             System.out.println("Got it. I've added this task:");
