@@ -12,7 +12,7 @@ public class StringDateTime {
     private String rawDateTime;
 
     private static DateTimeFormatter PARSE_FORMAT = new DateTimeFormatterBuilder()
-        .appendPattern("yyyy-MM-dd[@HHmm]")
+        .appendPattern("yyyy-M-d[@HHmm]")
         .parseDefaulting(ChronoField.HOUR_OF_DAY, 0)
         .parseDefaulting(ChronoField.MINUTE_OF_HOUR, 0)
         .toFormatter();
