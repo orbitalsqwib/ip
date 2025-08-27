@@ -1,9 +1,9 @@
-package cue.divider;
+package cue.ui;
 
 /**
  * Generates and prints visual dividers.
  */
-public class Divider {
+public class DividerPrinter {
 
     /**
      * The string content of the divider, generated and cached on construction.
@@ -16,7 +16,7 @@ public class Divider {
      * @param length The length of the divider in characters
      * @param dividerChar The character used to form the divider
      */
-    public void initializeDivider(int length, char dividerChar) {
+    private void initializeDivider(int length, char dividerChar) {
         StringBuilder dividerBuilder = new StringBuilder(length);
 
         // generate the divider through the string builder
@@ -34,7 +34,7 @@ public class Divider {
      * @param length The length of the divider in characters
      * @param dividerChar The character used to form the divider
      */
-    public Divider(int length, char dividerChar) {
+    public DividerPrinter(int length, char dividerChar) {
         initializeDivider(length, dividerChar);
     }
 
@@ -42,7 +42,7 @@ public class Divider {
      * Creates a visual divider that spans a fixed length.
      * @param length The length of the divider in characters
      */
-    public Divider(int length) {
+    public DividerPrinter(int length) {
         initializeDivider(length, '─');
     }
 
