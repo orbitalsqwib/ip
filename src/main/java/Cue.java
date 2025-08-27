@@ -57,7 +57,6 @@ public class Cue {
         commandRouter
             .route(input.getKeyword())
             .execute(new CommandContext(taskList, cli, stopCue), input);
-        cli.printDivider();
     }
 
     private void run() {
@@ -70,6 +69,7 @@ public class Cue {
                 TaskStorage.saveToDisk(taskList.getTasks());
             } catch (CueException error) {
                 System.out.println(error.getMessage());
+            } finally {
                 cli.printDivider();
             }
         }
