@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 import cue.datetime.StringDateTime;
 import cue.errors.CueException;
+import cue.errors.InvalidFormatException;
 import cue.errors.UnknownCommandException;
 import cue.parser.CommandParser;
 import cue.storage.TaskStorage;
@@ -96,16 +97,15 @@ public class CommandLineInterface {
             StringDateTime targetDate = new StringDateTime(parsed.getBody());
 
             if (targetDate.toLocalDateTime() == null) {
-                System.out.println(
-                    "Sorry, please use the format ([]: optional fields): summary yyyy-MM-dd[@HHmm]");
-            } else {
-                System.out.println("Here are the tasks for " + targetDate + ":");
-
-                // filter all relevant tasks
-                TaskList filteredTasks = taskList.filterActive(targetDate.toLocalDateTime());
-
-                printIndented(filteredTasks.toString());
+                throw new InvalidFormatException("summary yyyy-MM-dd[@HHmm] ([] denotes an optional section.)");
             }
+
+            System.out.println("Here are the tasks for " + targetDate + ":");
+
+            // filter all relevant tasks
+            TaskList filteredTasks = taskList.filterActive(targetDate.toLocalDateTime());
+
+            printIndented(filteredTasks.toString());
             dividerPrinter.print();
             break;
 
