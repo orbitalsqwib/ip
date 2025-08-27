@@ -6,10 +6,12 @@ import cue.ui.CommandLineInterface;
 public class CommandContext {
     private final TaskList tasklist;
     private final CommandLineInterface cli;
+    private final Runnable quitFn;
 
-    public CommandContext(TaskList taskList, CommandLineInterface cli) {
+    public CommandContext(TaskList taskList, CommandLineInterface cli, Runnable quitFn) {
         this.tasklist = taskList;
         this.cli = cli;
+        this.quitFn = quitFn;
     }
 
     public TaskList getTaskList() {
@@ -18,5 +20,9 @@ public class CommandContext {
 
     public CommandLineInterface getCli() {
         return this.cli;
+    }
+
+    public void quit() {
+        quitFn.run();;
     }
 }

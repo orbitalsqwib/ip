@@ -9,6 +9,6 @@ public class ExitCommand implements Command {
     @Override
     public void execute(CommandContext context, CommandParser.Result input) throws CueException {
         context.getCli().print("Bye. Hope to see you again soon!");
-        context.getCli().stop();
+        context.quit();
     }
 }
