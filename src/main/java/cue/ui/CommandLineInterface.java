@@ -4,8 +4,8 @@ import java.util.Scanner;
 
 import cue.datetime.StringDateTime;
 import cue.errors.CueException;
-import cue.errors.MissingArgumentException;
 import cue.errors.UnknownCommandException;
+import cue.parser.CommandParser;
 import cue.storage.TaskStorage;
 import cue.tasks.Deadline;
 import cue.tasks.Event;
@@ -48,129 +48,91 @@ public class CommandLineInterface {
         String input = promptForInput();
         dividerPrinter.print();
 
-        switch (input) {
-                case "bye":
-                    stop();
-                    break;
+        CommandParser.Result parsed = CommandParser.parse(input);
 
-                case "list":
-                    System.out.println("Here are the tasks in your list:");
-                    printIndented(taskList.toString());
-                    dividerPrinter.print();
-                    break;
+        switch (parsed.getKeyword()) {
+        case "bye":
+            stop();
+            break;
 
-                case "":
-                    throw new UnknownCommandException();
+        case "list":
+            System.out.println("Here are the tasks in your list:");
+            printIndented(taskList.toString());
+            dividerPrinter.print();
+            break;
 
-                default:
-                    if (input.startsWith("mark") || input.startsWith("unmark")) {
-                        String[] inputArgs = input.split(" ");
+        case "mark":
+        case "unmark": {
+            int targetIndex = Integer.parseInt(parsed.getBody());
+            boolean isTaskDone = parsed.getKeyword().equals("mark");
 
-                        int targetIndex = Integer.parseInt(inputArgs[1]);
-                        boolean isDone = input.startsWith("mark");
-                        Task targetTask =  taskList.getTask(targetIndex - 1);
+            Task targetTask =  taskList.getTask(targetIndex - 1);
+            targetTask.setDone(isTaskDone);
 
-                        targetTask.setDone(isDone);
-
-                        if (isDone) {
-                            System.out.println("Nice! I've marked this task as done:\n");
-                        } else {
-                            System.out.println("OK, I've marked this task as not done yet:\n");
-                        }
-
-                        System.out.println("  " + targetTask);
-                        dividerPrinter.print();
-                    } else if (input.startsWith("summary")) {
-                        String[] inputArgs = input.split(" ");
-
-                        if (inputArgs.length < 2) {
-                            throw new MissingArgumentException("target date/time");
-                        }
-
-                        StringDateTime targetDate = new StringDateTime(inputArgs[1]);
-
-                        if (targetDate.toLocalDateTime() == null) {
-                            System.out.println(
-                                "Sorry, please use the format ([]: optional fields): summary yyyy-MM-dd[@HHmm]");
-                        } else {
-                            System.out.println("Here are the tasks for " + targetDate + ":");
-
-                            // filter all relevant tasks
-                            TaskList filteredTasks = taskList.filterActive(targetDate.toLocalDateTime());
-
-                            printIndented(filteredTasks.toString());
-                            dividerPrinter.print();
-                        }
-                    } else if (input.startsWith("delete")) {
-                        String[] inputArgs = input.split(" ");
-
-                        int targetIndex = Integer.parseInt(inputArgs[1]);
-                        Task targetTask = taskList.getTask(targetIndex - 1);
-                        taskList.removeTask(targetIndex - 1);
-
-                        System.out.println("OK, I've removed this task for you:");
-                        System.out.println("  " + targetTask);
-                        System.out.println("Now you have " + taskList.getSize() + " tasks in the list");
-                        dividerPrinter.print();
-                    } else if (input.startsWith("todo")) {
-                        Todo newTodo = new Todo(input.replace("todo", "").strip());
-                        taskList.addTask(newTodo);
-
-                        System.out.println("Got it. I've added this task:");
-                        System.out.println("  " + newTodo);
-                        System.out.println("Now you have " + taskList.getSize() + " tasks in the list");
-                        dividerPrinter.print();
-                    } else if (input.startsWith("deadline")) {
-                        String[] inputArgs = input.replace("deadline", "").split(" /by ");
-
-                        // ensure all arguments are provided
-                        if (inputArgs.length < 2) {
-                            throw new MissingArgumentException("/by",
-                            "Please specify the deadline using `... /by [date] ...`.");
-                        }
-
-                        Deadline newDeadline = new Deadline(inputArgs[0].strip(), inputArgs[1].strip());
-                        taskList.addTask(newDeadline);
-
-                        System.out.println("Got it. I've added this task:");
-                        System.out.println("  " + newDeadline);
-                        System.out.println("Now you have " + taskList.getSize() + " tasks in the list");
-                        dividerPrinter.print();
-                    } else if (input.startsWith("event")) {
-                        String[] inputArgs = input.replace("event", "").split("/");
-                        String taskName = inputArgs[0].strip();
-                        String from = "";
-                        String to = "";
-                        for (int argIndex = 1; argIndex < inputArgs.length; argIndex++) {
-                            if (inputArgs[argIndex].startsWith("from")) {
-                                from = inputArgs[argIndex].replace("from ", "").strip();
-                            } else if (inputArgs[argIndex].startsWith("to")) {
-                                to = inputArgs[argIndex].replace("to ", "").strip();
-                            }
-                        }
-
-                        // ensure all arguments are provided
-                        if (from == "") {
-                            throw new MissingArgumentException("/from",
-                            "Please provide the start date using `... /from [date] ...`.");
-                        } else if (to == "") {
-                            throw new MissingArgumentException("/to",
-                            "Please provide the end date using `... /to [date] ...`.");
-                        }
-
-                        Event newEvent = new Event(taskName, from, to);
-                        taskList.addTask(newEvent);
-
-                        System.out.println("Got it. I've added this task:");
-                        System.out.println("  " + newEvent);
-                        System.out.println("Now you have " + taskList.getSize() + " tasks in the list");
-                        dividerPrinter.print();
-                    } else {
-                        throw new UnknownCommandException();
-                    }
-                    break;
+            if (isTaskDone) {
+                System.out.println("Nice! I've marked this task as done:");
+            } else {
+                System.out.println("OK, I've marked this task as not yet done:");
             }
-            TaskStorage.saveToDisk(taskList.getTasks());
+
+            printIndented(targetTask.toString());
+            dividerPrinter.print();
+            break;
+        }
+
+        case "delete": {
+            int targetIndex = Integer.parseInt(parsed.getBody());
+            Task targetTask = taskList.getTask(targetIndex - 1);
+            taskList.removeTask(targetIndex - 1);
+
+            System.out.println("OK, I've removed this task for you:");
+            System.out.println("  " + targetTask);
+            System.out.println("Now you have " + taskList.getSize() + " tasks in the list");
+            dividerPrinter.print();
+            break;
+        }
+
+        case "summary":
+            StringDateTime targetDate = new StringDateTime(parsed.getBody());
+
+            if (targetDate.toLocalDateTime() == null) {
+                System.out.println(
+                    "Sorry, please use the format ([]: optional fields): summary yyyy-MM-dd[@HHmm]");
+            } else {
+                System.out.println("Here are the tasks for " + targetDate + ":");
+
+                // filter all relevant tasks
+                TaskList filteredTasks = taskList.filterActive(targetDate.toLocalDateTime());
+
+                printIndented(filteredTasks.toString());
+            }
+            dividerPrinter.print();
+            break;
+
+        case "todo":
+        case "deadline":
+        case "event": {
+            Task newTask = switch (parsed.getKeyword()) {
+                case "todo" -> new Todo(parsed.getBody());
+                case "deadline" -> new Deadline(parsed.getBody(), parsed.getTag("by"));
+                case "event" -> new Event(parsed.getBody(), parsed.getTag("from"), parsed.getTag("to"));
+                default -> null;
+            };
+
+            if (newTask != null) {
+                taskList.addTask(newTask);
+
+                System.out.println("Got it. I've added this task:");
+                printIndented(newTask.toString());
+                System.out.println("Now you have " + taskList.getSize() + " tasks in the list");
+                dividerPrinter.print();
+            }
+            break;
+        }
+
+        default:
+            throw new UnknownCommandException();
+        }
     }
 
     public CommandLineInterface(int terminalWidth) {
@@ -187,6 +149,7 @@ public class CommandLineInterface {
         while (this.isRunning) {
             try {
                 handleInput();
+                TaskStorage.saveToDisk(taskList.getTasks());
             } catch (CueException error) {
                 System.out.println(error.getMessage());
                 dividerPrinter.print();
