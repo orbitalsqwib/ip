@@ -135,11 +135,11 @@ public class CommandLineInterface {
         }
     }
 
-    public CommandLineInterface(int terminalWidth) {
+    public CommandLineInterface(int terminalWidth, TaskList taskList) {
         this.dividerPrinter = new DividerPrinter(terminalWidth);
-        this.taskList = new TaskList(TaskStorage.loadFromDisk());
         this.inputScanner = new Scanner(System.in);
         this.isRunning = false;
+        this.taskList = taskList;
     }
 
     public void start() {
