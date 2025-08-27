@@ -61,9 +61,9 @@ me >
 ────────────────────────────────────────────────────────────────────────────────
 
 Here are the tasks in your list:
- 1. [T] [ ] add basic task 1
- 2. [T] [ ] add basic task 2
- 3. [T] [ ] another task
+  1. [T] [ ] add basic task 1
+  2. [T] [ ] add basic task 2
+  3. [T] [ ] another task
 
 ────────────────────────────────────────────────────────────────────────────────
 
@@ -89,11 +89,11 @@ me >
 ────────────────────────────────────────────────────────────────────────────────
 
 Here are the tasks in your list:
- 1. [T] [ ] add basic task 1
- 2. [T] [ ] add basic task 2
- 3. [T] [ ] another task
- 4. [D] [ ] this project (by: soon)
- 5. [E] [ ] go to class tomorrow (from: tomorrow morning to: tomorrow night)
+  1. [T] [ ] add basic task 1
+  2. [T] [ ] add basic task 2
+  3. [T] [ ] another task
+  4. [D] [ ] this project (by: soon)
+  5. [E] [ ] go to class tomorrow (from: tomorrow morning to: tomorrow night)
 
 ────────────────────────────────────────────────────────────────────────────────
 
@@ -128,11 +128,11 @@ me >
 ────────────────────────────────────────────────────────────────────────────────
 
 Here are the tasks in your list:
- 1. [T] [ ] add basic task 1
- 2. [T] [ ] add basic task 2
- 3. [T] [x] another task
- 4. [D] [x] this project (by: soon)
- 5. [E] [x] go to class tomorrow (from: tomorrow morning to: tomorrow night)
+  1. [T] [ ] add basic task 1
+  2. [T] [ ] add basic task 2
+  3. [T] [x] another task
+  4. [D] [x] this project (by: soon)
+  5. [E] [x] go to class tomorrow (from: tomorrow morning to: tomorrow night)
 
 ────────────────────────────────────────────────────────────────────────────────
 
@@ -149,10 +149,10 @@ me >
 ────────────────────────────────────────────────────────────────────────────────
 
 Here are the tasks in your list:
- 1. [T] [ ] add basic task 1
- 2. [T] [ ] add basic task 2
- 3. [D] [x] this project (by: soon)
- 4. [E] [x] go to class tomorrow (from: tomorrow morning to: tomorrow night)
+  1. [T] [ ] add basic task 1
+  2. [T] [ ] add basic task 2
+  3. [D] [x] this project (by: soon)
+  4. [E] [x] go to class tomorrow (from: tomorrow morning to: tomorrow night)
 
 ────────────────────────────────────────────────────────────────────────────────
 

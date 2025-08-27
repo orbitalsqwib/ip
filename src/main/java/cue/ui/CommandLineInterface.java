@@ -1,22 +1,22 @@
 package cue.ui;
 
-import java.util.ArrayList;
 import java.util.Scanner;
 
-import cue.data.SaveFile;
 import cue.datetime.StringDateTime;
 import cue.errors.CueException;
 import cue.errors.MissingArgumentException;
 import cue.errors.UnknownCommandException;
+import cue.storage.TaskStorage;
 import cue.tasks.Deadline;
 import cue.tasks.Event;
 import cue.tasks.Task;
+import cue.tasks.TaskList;
 import cue.tasks.Todo;
 
 public class CommandLineInterface {
     private DividerPrinter dividerPrinter;
     private boolean isRunning;
-    private ArrayList<Task> tasks;
+    private TaskList taskList;
     private Scanner inputScanner;
 
     private static final String textLogo = "\n  ▄▄▄x  ▄▄▄ x▄▄    ▄▄▄o  \n"
@@ -40,6 +40,10 @@ public class CommandLineInterface {
         return inputScanner.nextLine().strip();
     }
 
+    private void printIndented(String originalText) {
+        System.out.println("  " + originalText.strip().replace("\n", "\n  "));
+    }
+
     private void handleInput() throws CueException {
         String input = promptForInput();
         dividerPrinter.print();
@@ -51,9 +55,7 @@ public class CommandLineInterface {
 
                 case "list":
                     System.out.println("Here are the tasks in your list:");
-                    for (int i = 0; i < tasks.size(); i++) {
-                        System.out.println(" " + (i+1) + ". " + tasks.get(i));
-                    }
+                    printIndented(taskList.toString());
                     dividerPrinter.print();
                     break;
 
@@ -66,7 +68,7 @@ public class CommandLineInterface {
 
                         int targetIndex = Integer.parseInt(inputArgs[1]);
                         boolean isDone = input.startsWith("mark");
-                        Task targetTask =  tasks.get(targetIndex - 1);
+                        Task targetTask =  taskList.getTask(targetIndex - 1);
 
                         targetTask.setDone(isDone);
 
@@ -94,32 +96,29 @@ public class CommandLineInterface {
                             System.out.println("Here are the tasks for " + targetDate + ":");
 
                             // filter all relevant tasks
-                            for (int i = 0; i < tasks.size(); i++) {
-                                if (tasks.get(i).isActiveOn(targetDate.toLocalDateTime())) {
-                                    System.out.println(" " + (i+1) + ". " + tasks.get(i));
-                                }
-                            }
+                            TaskList filteredTasks = taskList.filterActive(targetDate.toLocalDateTime());
 
+                            printIndented(filteredTasks.toString());
                             dividerPrinter.print();
                         }
                     } else if (input.startsWith("delete")) {
                         String[] inputArgs = input.split(" ");
 
                         int targetIndex = Integer.parseInt(inputArgs[1]);
-                        Task targetTask = tasks.get(targetIndex - 1);
-                        tasks.remove(targetIndex - 1);
+                        Task targetTask = taskList.getTask(targetIndex - 1);
+                        taskList.removeTask(targetIndex - 1);
 
                         System.out.println("OK, I've removed this task for you:");
                         System.out.println("  " + targetTask);
-                        System.out.println("Now you have " + tasks.size() + " tasks in the list");
+                        System.out.println("Now you have " + taskList.getSize() + " tasks in the list");
                         dividerPrinter.print();
                     } else if (input.startsWith("todo")) {
                         Todo newTodo = new Todo(input.replace("todo", "").strip());
-                        tasks.add(newTodo);
+                        taskList.addTask(newTodo);
 
                         System.out.println("Got it. I've added this task:");
                         System.out.println("  " + newTodo);
-                        System.out.println("Now you have " + tasks.size() + " tasks in the list");
+                        System.out.println("Now you have " + taskList.getSize() + " tasks in the list");
                         dividerPrinter.print();
                     } else if (input.startsWith("deadline")) {
                         String[] inputArgs = input.replace("deadline", "").split(" /by ");
@@ -131,11 +130,11 @@ public class CommandLineInterface {
                         }
 
                         Deadline newDeadline = new Deadline(inputArgs[0].strip(), inputArgs[1].strip());
-                        tasks.add(newDeadline);
+                        taskList.addTask(newDeadline);
 
                         System.out.println("Got it. I've added this task:");
                         System.out.println("  " + newDeadline);
-                        System.out.println("Now you have " + tasks.size() + " tasks in the list");
+                        System.out.println("Now you have " + taskList.getSize() + " tasks in the list");
                         dividerPrinter.print();
                     } else if (input.startsWith("event")) {
                         String[] inputArgs = input.replace("event", "").split("/");
@@ -160,23 +159,23 @@ public class CommandLineInterface {
                         }
 
                         Event newEvent = new Event(taskName, from, to);
-                        tasks.add(newEvent);
+                        taskList.addTask(newEvent);
 
                         System.out.println("Got it. I've added this task:");
                         System.out.println("  " + newEvent);
-                        System.out.println("Now you have " + tasks.size() + " tasks in the list");
+                        System.out.println("Now you have " + taskList.getSize() + " tasks in the list");
                         dividerPrinter.print();
                     } else {
                         throw new UnknownCommandException();
                     }
                     break;
             }
-            SaveFile.save(tasks);
+            TaskStorage.saveToDisk(taskList.getTasks());
     }
 
     public CommandLineInterface(int terminalWidth) {
         this.dividerPrinter = new DividerPrinter(terminalWidth);
-        this.tasks = SaveFile.load();
+        this.taskList = new TaskList(TaskStorage.loadFromDisk());
         this.inputScanner = new Scanner(System.in);
         this.isRunning = false;
     }
