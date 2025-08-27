@@ -1,4 +1,4 @@
-package cue.data;
+package cue.storage;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -6,6 +6,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 
+import cue.errors.MissingSavefileException;
 import cue.tasks.Deadline;
 import cue.tasks.Event;
 import cue.tasks.Task;
@@ -14,17 +15,17 @@ import cue.tasks.Todo;
 /**
  * Manages the savefile for the Cue agent.
  */
-public abstract class SaveFile {
+public abstract class TaskStorage {
     private static Path SAVEFILE_DIR = Paths.get(System.getProperty("user.home"), ".cue_data");
     private static Path SAVEFILE_PATH = Paths.get(SAVEFILE_DIR.toString(), "savefile.txt");
 
-    public static ArrayList<Task> load() {
+    public static Task[] loadFromDisk() {
         ArrayList<Task> savedTasks = new ArrayList<>();
 
         try {
             // if savefile doesn't exist, skip
             if (!Files.exists(SAVEFILE_PATH)) {
-                return savedTasks;
+                throw new MissingSavefileException();
             }
 
             // read savefile
@@ -62,14 +63,14 @@ public abstract class SaveFile {
                 }
             }
         }
-        catch(IOException err) {
-            // handle file input failure
+        catch (MissingSavefileException | IOException error) {
+            return new Task[0];
         }
 
-        return savedTasks;
+        return savedTasks.toArray(new Task[savedTasks.size()]);
     }
 
-    public static boolean save(ArrayList<Task> tasks) {
+    public static boolean saveToDisk(Task[] tasks) {
         try {
             // create savefile directory if it doesn't already exist
             if (!Files.exists(SAVEFILE_DIR)) {
