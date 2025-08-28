@@ -23,6 +23,6 @@ public class CommandContext {
     }
 
     public void quit() {
-        quitFn.run();;
+        quitFn.run();
     }
 }
