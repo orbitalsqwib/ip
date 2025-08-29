@@ -5,6 +5,9 @@ import cue.command.CommandContext;
 import cue.errors.CueException;
 import cue.parser.CommandParser;
 
+/**
+ * Sends a termination signal to the current context.
+ */
 public class ExitCommand implements Command {
     @Override
     public void execute(CommandContext context, CommandParser.Result input) throws CueException {
