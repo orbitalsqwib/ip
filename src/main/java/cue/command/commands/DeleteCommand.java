@@ -10,11 +10,11 @@ public class DeleteCommand implements Command {
     @Override
     public void execute(CommandContext context, CommandParser.Result input) throws CueException {
         int targetIndex = Integer.parseInt(input.getBody());
-        Task targetTask = context.getTaskList().getTask(targetIndex - 1);
-        context.getTaskList().removeTask(targetIndex - 1);
+        Task targetTask = context.tasklist.getTask(targetIndex - 1);
+        context.tasklist.removeTask(targetIndex - 1);
 
-        context.getCli().print("OK, I've removed this task for you:");
-        context.getCli().print("  " + targetTask);
-        context.getCli().print("Now you have " + context.getTaskList().getSize() + " tasks in the list");
+        context.cli.print("OK, I've removed this task for you:");
+        context.cli.print("  " + targetTask);
+        context.cli.print("Now you have " + context.tasklist.getSize() + " tasks in the list");
     }
 }

@@ -8,7 +8,7 @@ import cue.parser.CommandParser;
 public class ListCommand implements Command {
     @Override
     public void execute(CommandContext context, CommandParser.Result input) throws CueException {
-        context.getCli().print("Here are the tasks in your list:");
-        context.getCli().printIndented(context.getTaskList().toString());
+        context.cli.print("Here are the tasks in your list:");
+        context.cli.printIndented(context.tasklist.toString());
     }
 }

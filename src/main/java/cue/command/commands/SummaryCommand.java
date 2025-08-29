@@ -20,8 +20,8 @@ public class SummaryCommand implements Command {
         System.out.println("Here are the tasks for " + targetDate + ":");
 
         // filter all relevant tasks
-        TaskList filteredTasks = context.getTaskList().filterActive(targetDate.toLocalDateTime());
+        TaskList filteredTasks = context.tasklist.filterActive(targetDate.toLocalDateTime());
 
-        context.getCli().printIndented(filteredTasks.toString());
+        context.cli.printIndented(filteredTasks.toString());
     }
 }

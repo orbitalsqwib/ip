@@ -1,4 +1,4 @@
-
+package cue;
 
 import cue.command.CommandContext;
 import cue.command.CommandRouter;
@@ -23,12 +23,6 @@ public class Cue {
     private CommandRouter commandRouter;
 
     private boolean isRunning;
-    private final Runnable stopCue = new Runnable() {
-                @Override
-                public void run() {
-                    isRunning = false;
-                }
-            };
 
     private Cue() {
         taskList = new TaskList(TaskStorage.loadFromDisk());
@@ -56,7 +50,7 @@ public class Cue {
         CommandParser.Result input = CommandParser.parse(rawInput);
         commandRouter
             .route(input.getKeyword())
-            .execute(new CommandContext(taskList, cli, stopCue), input);
+            .execute(new CommandContext(taskList, cli, this), input);
     }
 
     private void run() {
@@ -75,6 +69,10 @@ public class Cue {
         }
 
         cli.cleanup();
+    }
+
+    public void stop() {
+        this.isRunning = false;
     }
 
     public static void main(String[] args) {

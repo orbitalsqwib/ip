@@ -21,11 +21,11 @@ public class CreateTaskCommand implements Command {
         };
 
         if (newTask != null) {
-            context.getTaskList().addTask(newTask);
+            context.tasklist.addTask(newTask);
 
-            context.getCli().print("Got it. I've added this task:");
-            context.getCli().printIndented(newTask.toString());
-            context.getCli().print("Now you have " + context.getTaskList().getSize() + " tasks in the list");
+            context.cli.print("Got it. I've added this task:");
+            context.cli.printIndented(newTask.toString());
+            context.cli.print("Now you have " + context.tasklist.getSize() + " tasks in the list");
         }
     }
 }

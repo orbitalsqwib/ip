@@ -12,15 +12,15 @@ public class MarkCommand implements Command {
         int targetIndex = Integer.parseInt(input.getBody());
         boolean isTaskDone = input.getKeyword().equals("mark");
 
-        Task targetTask =  context.getTaskList().getTask(targetIndex - 1);
+        Task targetTask =  context.tasklist.getTask(targetIndex - 1);
         targetTask.setDone(isTaskDone);
 
         if (isTaskDone) {
-            context.getCli().print("Nice! I've marked this task as done:");
+            context.cli.print("Nice! I've marked this task as done:");
         } else {
-            context.getCli().print("OK, I've marked this task as not yet done:");
+            context.cli.print("OK, I've marked this task as not yet done:");
         }
 
-        context.getCli().printIndented(targetTask.toString());
+        context.cli.printIndented(targetTask.toString());
     }
 }
