@@ -11,9 +11,29 @@ public class DividerPrinter {
     private String divider;
 
     /**
+     * Creates a visual divider that spans a fixed length.
+     *
+     * @param length The length of the divider in characters
+     */
+    public DividerPrinter(int length) {
+        initializeDivider(length, '─');
+    }
+
+    /**
+     * Creates a visual divider using custom characters that spans a fixed length.
+     *
+     * @param length      The length of the divider in characters
+     * @param dividerChar The character used to form the divider
+     */
+    public DividerPrinter(int length, char dividerChar) {
+        initializeDivider(length, dividerChar);
+    }
+
+    /**
      * Builds a visual divider using dividerChar that spans a fixed length.
      * Caches the resulting divider in the Divider instance.
-     * @param length The length of the divider in characters
+     *
+     * @param length      The length of the divider in characters
      * @param dividerChar The character used to form the divider
      */
     private void initializeDivider(int length, char dividerChar) {
@@ -27,23 +47,6 @@ public class DividerPrinter {
         dividerBuilder.append('\n');
 
         this.divider = dividerBuilder.toString();
-    }
-
-    /**
-     * Creates a visual divider using custom characters that spans a fixed length.
-     * @param length The length of the divider in characters
-     * @param dividerChar The character used to form the divider
-     */
-    public DividerPrinter(int length, char dividerChar) {
-        initializeDivider(length, dividerChar);
-    }
-
-    /**
-     * Creates a visual divider that spans a fixed length.
-     * @param length The length of the divider in characters
-     */
-    public DividerPrinter(int length) {
-        initializeDivider(length, '─');
     }
 
     /**

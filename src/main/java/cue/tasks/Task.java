@@ -2,10 +2,18 @@ package cue.tasks;
 
 import java.time.LocalDateTime;
 
+/**
+ * Models a task that can be completed.
+ */
 public abstract class Task {
     private boolean done;
     private String taskName;
 
+    /**
+     * Creates a task with the given name
+     *
+     * @param taskName The name of the task to create
+     */
     public Task(String taskName) {
         this.taskName = taskName;
         this.done = false;
@@ -29,6 +37,11 @@ public abstract class Task {
         return "[" + status + "] " + this.taskName;
     }
 
+    /**
+     * Converts the task's data into a form that can be easily saved to the disk.
+     *
+     * @return
+     */
     public String encode() {
         String doneStatus;
         if (this.done) {
