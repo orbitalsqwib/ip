@@ -5,6 +5,7 @@ import cue.command.CommandRouter;
 import cue.command.commands.CreateTaskCommand;
 import cue.command.commands.DeleteCommand;
 import cue.command.commands.ExitCommand;
+import cue.command.commands.FindCommand;
 import cue.command.commands.ListCommand;
 import cue.command.commands.MarkCommand;
 import cue.command.commands.SummaryCommand;
@@ -37,6 +38,7 @@ public class Cue {
             commandRouter.register(new CreateTaskCommand(), new String[]{ "todo", "deadline", "event" });
             commandRouter.register(new DeleteCommand(), new String[]{ "delete" });
             commandRouter.register(new SummaryCommand(), new String[]{ "summary" });
+            commandRouter.register(new FindCommand(), new String[] { "find" });
         } catch (KeywordCollisionException error) {
             // this should not happen, except during development. in this case, throw an exception to warn the dev.
             throw new RuntimeException(error);
