@@ -66,6 +66,19 @@ public class TaskList {
         return filteredTasks;
     }
 
+    public TaskList filterNameContains(String searchTerm) {
+        TaskList filteredTasks = new TaskList();
+
+        // filter all relevant tasks
+        for (int i = 0; i < this.tasks.size(); i++) {
+            if (tasks.get(i).nameContains(searchTerm)) {
+                filteredTasks.addTask(this.tasks.get(i));
+            }
+        }
+
+        return filteredTasks;
+    }
+
     @Override
     public String toString() {
         StringBuilder taskListing = new StringBuilder();

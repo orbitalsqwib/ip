@@ -27,6 +27,10 @@ public abstract class Task {
         return this.done;
     }
 
+    public boolean nameContains(String substring) {
+        return this.taskName.contains(substring);
+    }
+
     @Override
     public String toString() {
         char status = ' ';
