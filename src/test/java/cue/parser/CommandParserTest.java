@@ -58,7 +58,7 @@ public class CommandParserTest {
 
     @Test
     public void commandParser_parseGetUnknownTag_exceptionThrown() {
-        assertThrows(MissingCommandTagException.class,
-            () -> CommandParser.parse("test body with many words /tag1 a /tag2 b").getTag("tag3"));
+        assertThrows(MissingCommandTagException.class, (
+            ) -> CommandParser.parse("test body with many words /tag1 a /tag2 b").getTag("tag3"));
     }
 }

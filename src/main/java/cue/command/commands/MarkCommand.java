@@ -15,7 +15,7 @@ public class MarkCommand implements Command {
         int targetIndex = Integer.parseInt(input.getBody());
         boolean isTaskDone = input.getKeyword().equals("mark");
 
-        Task targetTask =  context.tasklist.getTask(targetIndex - 1);
+        Task targetTask = context.tasklist.getTask(targetIndex - 1);
         targetTask.setDone(isTaskDone);
 
         if (isTaskDone) {

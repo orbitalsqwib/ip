@@ -18,10 +18,10 @@ public class CreateTaskCommand implements Command {
     @Override
     public void execute(CommandContext context, CommandParser.Result input) throws CueException {
         Task newTask = switch (input.getKeyword()) {
-            case "todo" -> new Todo(input.getBody());
-            case "deadline" -> new Deadline(input.getBody(), input.getTag("by"));
-            case "event" -> new Event(input.getBody(), input.getTag("from"), input.getTag("to"));
-            default -> throw new UnknownCommandException();
+        case "todo" -> new Todo(input.getBody());
+        case "deadline" -> new Deadline(input.getBody(), input.getTag("by"));
+        case "event" -> new Event(input.getBody(), input.getTag("from"), input.getTag("to"));
+        default -> throw new UnknownCommandException();
         };
 
         if (newTask != null) {

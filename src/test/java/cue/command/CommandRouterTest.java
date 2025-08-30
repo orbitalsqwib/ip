@@ -1,4 +1,4 @@
-package cue.command;  //same package as the class being tested
+package cue.command;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertSame;
@@ -29,7 +29,7 @@ public class CommandRouterTest {
     }
 
     @Test
-    public void commandRouter_register_duplicateKeyword_exceptionThrown() {
+    public void commandRouter_registerDuplicateKeyword_exceptionThrown() {
         CommandRouter router = new CommandRouter();
         Command command = getMockCommand();
 
@@ -53,12 +53,12 @@ public class CommandRouterTest {
     }
 
     @Test
-    public void commandRouter_route_unknownKeyword_exceptionThrown() {
+    public void commandRouter_routeUnknownKeyword_exceptionThrown() {
         CommandRouter router = new CommandRouter();
         Command commandA = getMockCommand();
         Command commandB = getMockCommand();
 
-        assertThrows(UnknownCommandException.class,() -> {
+        assertThrows(UnknownCommandException.class, () -> {
             router.register(commandA, new String[]{ "A" });
             router.register(commandB, new String[]{ "B" });
             router.route("C");

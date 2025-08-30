@@ -7,18 +7,20 @@ import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoField;
 
 public class StringDateTime {
+    private static final DateTimeFormatter PARSE_FORMAT = new DateTimeFormatterBuilder()
+            .appendPattern("yyyy-M-d[@HHmm]")
+            .parseDefaulting(ChronoField.HOUR_OF_DAY, 0)
+            .parseDefaulting(ChronoField.MINUTE_OF_HOUR, 0)
+            .toFormatter();
+
+    private static final DateTimeFormatter PRINT_FORMAT_W_TIME = DateTimeFormatter.ofPattern(
+            "MMM d yyyy @ hh:mma");
+    private static final DateTimeFormatter PRINT_FORMAT = DateTimeFormatter.ofPattern(
+            "MMM d yyyy");
+
     private boolean isPlainString;
     private LocalDateTime parsedDateTime;
     private String rawDateTime;
-
-    private static DateTimeFormatter PARSE_FORMAT = new DateTimeFormatterBuilder()
-        .appendPattern("yyyy-M-d[@HHmm]")
-        .parseDefaulting(ChronoField.HOUR_OF_DAY, 0)
-        .parseDefaulting(ChronoField.MINUTE_OF_HOUR, 0)
-        .toFormatter();
-
-    private static DateTimeFormatter PRINT_FORMAT_W_TIME = DateTimeFormatter.ofPattern("MMM d yyyy @ hh:mma");
-    private static DateTimeFormatter PRINT_FORMAT = DateTimeFormatter.ofPattern("MMM d yyyy");
 
     public StringDateTime(String rawDateTime) {
         this.rawDateTime = rawDateTime;
@@ -27,7 +29,7 @@ public class StringDateTime {
         try {
             this.parsedDateTime = LocalDateTime.parse(rawDateTime, PARSE_FORMAT);
             this.isPlainString = false;
-        } catch(DateTimeParseException err) {
+        } catch (DateTimeParseException err) {
             this.isPlainString = true;
         }
     }

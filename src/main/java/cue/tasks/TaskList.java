@@ -3,6 +3,9 @@ package cue.tasks;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
+/**
+ * A list of Tasks.
+ */
 public class TaskList {
     private final ArrayList<Task> tasks;
 
@@ -10,11 +13,16 @@ public class TaskList {
         this.tasks = new ArrayList<>();
     }
 
+    /**
+     * Creates a new TaskList from an array of tasks.
+     *
+     * @param tasks An array of tasks to populate the TaskList with
+     */
     public TaskList(Task[] tasks) {
         this.tasks = new ArrayList<>();
 
         // add all tasks from src array
-        for (Task task: tasks) {
+        for (Task task : tasks) {
             this.tasks.add(task);
         }
     }
@@ -39,6 +47,12 @@ public class TaskList {
         return this.tasks.size();
     }
 
+    /**
+     * Filters all active Tasks for the given datetime
+     *
+     * @param targetDateTime The target datetime to filter tasks by
+     * @return A TaskList containing all active tasks for the target datetime
+     */
     public TaskList filterActive(LocalDateTime targetDateTime) {
         TaskList filteredTasks = new TaskList();
 
@@ -56,7 +70,7 @@ public class TaskList {
     public String toString() {
         StringBuilder taskListing = new StringBuilder();
         for (int i = 0; i < this.tasks.size(); i++) {
-            taskListing.append((i+1) + ". " + this.tasks.get(i) + "\n");
+            taskListing.append((i + 1) + ". " + this.tasks.get(i) + "\n");
         }
         return taskListing.toString();
     }

@@ -8,15 +8,17 @@ import cue.command.commands.ExitCommand;
 import cue.command.commands.ListCommand;
 import cue.command.commands.MarkCommand;
 import cue.command.commands.SummaryCommand;
-
 import cue.errors.CueException;
 import cue.errors.KeywordCollisionException;
-
+import cue.errors.MissingSavefileException;
 import cue.parser.CommandParser;
 import cue.storage.TaskStorage;
 import cue.tasks.TaskList;
 import cue.ui.CommandLineInterface;
 
+/**
+ * The main Cue agent.
+ */
 public class Cue {
     private CommandLineInterface cli;
     private TaskList taskList;
@@ -25,10 +27,14 @@ public class Cue {
     private boolean isRunning;
 
     private Cue() {
-        taskList = new TaskList(TaskStorage.loadFromDisk());
+        try {
+            taskList = new TaskList(TaskStorage.loadFromDisk());
+        } catch (MissingSavefileException error) {
+            taskList = new TaskList();
+        }
         cli = new CommandLineInterface(80);
 
-         // register commands
+        // register commands
         this.commandRouter = new CommandRouter();
         try {
             commandRouter.register(new ExitCommand(), new String[]{ "bye" });

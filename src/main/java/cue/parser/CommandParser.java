@@ -8,11 +8,17 @@ import cue.parser.errors.InvalidCommandPatternException;
 import cue.parser.errors.MissingCommandBodyException;
 import cue.parser.errors.MissingCommandTagException;
 
+/**
+ * Parses command inputs into a keyword, body and tags with data.
+ */
 public class CommandParser {
 
-    private final static Pattern COMMAND_PATTERN = Pattern.compile("^(\\S+) ?([^/]+)?([\\s\\S]+)?");
-    private final static Pattern TAG_PATTERN = Pattern.compile("^(\\S+) (.+)");
+    private static final Pattern COMMAND_PATTERN = Pattern.compile("^(\\S+) ?([^/]+)?([\\s\\S]+)?");
+    private static final Pattern TAG_PATTERN = Pattern.compile("^(\\S+) (.+)");
 
+    /**
+     * A parsed command input with convenience methods to retrieve data easily.
+     */
     public static class Result {
         private final String keyword;
         private final String body;
@@ -43,6 +49,12 @@ public class CommandParser {
         }
     }
 
+    /**
+     * Parses a user-input command into a keyword, body and tagged data
+     *
+     * @param input A string command from the user
+     * @return A Result dataclass containing the parsed inputs.
+     */
     public static Result parse(String input) throws InvalidCommandPatternException {
         Matcher commandMatcher = COMMAND_PATTERN.matcher(input);
 
@@ -63,7 +75,7 @@ public class CommandParser {
         if (commandMatcher.group(3) != null) {
             String[] tagGroups = commandMatcher.group(3).split("/");
 
-            for (String tagGroup: tagGroups) {
+            for (String tagGroup : tagGroups) {
                 Matcher tagMatcher = TAG_PATTERN.matcher(tagGroup);
 
                 if (!tagMatcher.find()) {
