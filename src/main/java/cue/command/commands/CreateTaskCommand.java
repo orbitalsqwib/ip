@@ -10,7 +10,11 @@ import cue.tasks.Event;
 import cue.tasks.Task;
 import cue.tasks.Todo;
 
+/**
+ * Creates a new Task and adds it to the current CommandContext's TaskList.
+ */
 public class CreateTaskCommand implements Command {
+
     @Override
     public void execute(CommandContext context, CommandParser.Result input) throws CueException {
         Task newTask = switch (input.getKeyword()) {

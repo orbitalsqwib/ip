@@ -6,6 +6,9 @@ import cue.errors.CueException;
 import cue.parser.CommandParser;
 import cue.tasks.Task;
 
+/**
+ * Deletes a Task at a specified index from a TaskList.
+ */
 public class DeleteCommand implements Command {
     @Override
     public void execute(CommandContext context, CommandParser.Result input) throws CueException {

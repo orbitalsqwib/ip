@@ -6,6 +6,9 @@ import cue.errors.CueException;
 import cue.parser.CommandParser;
 import cue.tasks.Task;
 
+/**
+ * Marks a task as done (or undone) based on the mark (or unmark) command keyword.
+ */
 public class MarkCommand implements Command {
     @Override
     public void execute(CommandContext context, CommandParser.Result input) throws CueException {

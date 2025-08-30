@@ -8,6 +8,9 @@ import cue.errors.InvalidFormatException;
 import cue.parser.CommandParser;
 import cue.tasks.TaskList;
 
+/**
+ * Filters and displays a list of tasks that are active at the specified datetime.
+ */
 public class SummaryCommand implements Command {
     @Override
     public void execute(CommandContext context, CommandParser.Result input) throws CueException {
