@@ -11,7 +11,11 @@ import cue.parser.CommandParser;
 public class ExitCommand implements Command {
     @Override
     public void execute(CommandContext context, CommandParser.Result input) throws CueException {
-        context.cli.print("Bye. Hope to see you again soon!");
-        context.cue.stop();
+        context.ui.display("Bye. Hope to see you again soon!");
+        try {
+            context.cue.stop();
+        } catch (Exception error) {
+            throw new CueException(error.getMessage());
+        }
     }
 }

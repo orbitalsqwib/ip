@@ -3,6 +3,7 @@ package cue.command.commands;
 import cue.command.Command;
 import cue.command.CommandContext;
 import cue.errors.CueException;
+import cue.formatter.StringFormatter;
 import cue.parser.CommandParser;
 import cue.tasks.Task;
 
@@ -16,8 +17,11 @@ public class DeleteCommand implements Command {
         Task targetTask = context.tasklist.getTask(targetIndex - 1);
         context.tasklist.removeTask(targetIndex - 1);
 
-        context.cli.print("OK, I've removed this task for you:");
-        context.cli.print("  " + targetTask);
-        context.cli.print("Now you have " + context.tasklist.getSize() + " tasks in the list");
+        String output = StringFormatter.joinWithNewlines(
+                "OK, I've removed this task for you:",
+                StringFormatter.indent(targetTask.toString()),
+                "Now you have " + context.tasklist.getSize() + " tasks in the list");
+
+        context.ui.display(output);
     }
 }

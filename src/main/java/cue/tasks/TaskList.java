@@ -66,6 +66,25 @@ public class TaskList {
         return filteredTasks;
     }
 
+    /**
+     * Filters all Task descriptions for the given search term
+     *
+     * @param searchTerm The target term to filter tasks by
+     * @return A TaskList containing all active tasks for the target datetime
+     */
+    public TaskList filterNameContains(String searchTerm) {
+        TaskList filteredTasks = new TaskList();
+
+        // filter all relevant tasks
+        for (int i = 0; i < this.tasks.size(); i++) {
+            if (tasks.get(i).nameContains(searchTerm)) {
+                filteredTasks.addTask(this.tasks.get(i));
+            }
+        }
+
+        return filteredTasks;
+    }
+
     @Override
     public String toString() {
         StringBuilder taskListing = new StringBuilder();

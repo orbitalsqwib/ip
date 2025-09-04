@@ -1,8 +1,8 @@
 package cue.command;
 
 import cue.Cue;
+import cue.gui.CommandableInterface;
 import cue.tasks.TaskList;
-import cue.ui.CommandLineInterface;
 
 /**
  * Encloses a collection of shared application utilities that a Command may act upon.
@@ -10,12 +10,19 @@ import cue.ui.CommandLineInterface;
  */
 public class CommandContext {
     public final TaskList tasklist;
-    public final CommandLineInterface cli;
+    public final CommandableInterface ui;
     public final Cue cue;
 
-    public CommandContext(TaskList taskList, CommandLineInterface cli, Cue cue) {
+    /**
+     * Creates a new command context
+     *
+     * @param taskList The current task list
+     * @param ui       The current UI
+     * @param cue      The current Cue agent
+     */
+    public CommandContext(TaskList taskList, CommandableInterface ui, Cue cue) {
         this.tasklist = taskList;
-        this.cli = cli;
+        this.ui = ui;
         this.cue = cue;
     }
 }

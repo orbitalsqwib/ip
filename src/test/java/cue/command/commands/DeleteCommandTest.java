@@ -7,16 +7,24 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.jupiter.api.Test;
 
 import cue.command.CommandContext;
+import cue.gui.CommandableInterface;
 import cue.parser.CommandParser;
 import cue.tasks.TaskList;
 import cue.tasks.Todo;
-import cue.ui.CommandLineInterface;
 
 public class DeleteCommandTest {
+    private CommandContext getMockCommandContext(TaskList taskList) {
+        return new CommandContext(taskList, new CommandableInterface() {
+            @Override
+            public void display(String output) {
+            }
+        }, null);
+    }
+
     @Test
     public void deleteTaskCommand_execute_success() {
         TaskList taskList = new TaskList();
-        CommandContext commandContext = new CommandContext(taskList, new CommandLineInterface(80), null);
+        CommandContext commandContext = getMockCommandContext(taskList);
 
         taskList.addTask(new Todo("test"));
 
@@ -31,7 +39,7 @@ public class DeleteCommandTest {
     @Test
     public void deleteTaskCommand_executeDeleteOutOfRange_exceptionThrown() {
         TaskList taskList = new TaskList();
-        CommandContext commandContext = new CommandContext(taskList, new CommandLineInterface(80), null);
+        CommandContext commandContext = getMockCommandContext(taskList);
 
         assertThrows(IndexOutOfBoundsException.class, () -> {
             CommandParser.Result input = CommandParser.parse("delete 1");
