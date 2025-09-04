@@ -20,6 +20,7 @@ import cue.parser.CommandParser;
 import cue.storage.TaskStorage;
 import cue.tasks.TaskList;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
@@ -99,6 +100,7 @@ public class Cue extends Application {
     @Override
     public void stop() throws Exception {
         super.stop();
+        Platform.exit();
     }
 
     private CommandContext createCommandContext() {
