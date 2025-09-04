@@ -1,5 +1,7 @@
 package cue;
 
+import java.io.IOException;
+
 import cue.command.CommandContext;
 import cue.command.CommandRouter;
 import cue.command.commands.CreateTaskCommand;
@@ -12,28 +14,34 @@ import cue.command.commands.SummaryCommand;
 import cue.errors.CueException;
 import cue.errors.KeywordCollisionException;
 import cue.errors.MissingSavefileException;
+import cue.gui.CommandableInterface;
+import cue.gui.components.MainWindow;
 import cue.parser.CommandParser;
 import cue.storage.TaskStorage;
 import cue.tasks.TaskList;
-import cue.ui.CommandLineInterface;
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 
 /**
  * The main Cue agent.
  */
-public class Cue {
-    private CommandLineInterface cli;
+public class Cue extends Application {
+    private CommandableInterface currentUi;
     private TaskList taskList;
     private CommandRouter commandRouter;
 
-    private boolean isRunning;
-
-    private Cue() {
+    /**
+     * Creates a new Cue instance
+     */
+    public Cue() {
         try {
             taskList = new TaskList(TaskStorage.loadFromDisk());
         } catch (MissingSavefileException error) {
             taskList = new TaskList();
         }
-        cli = new CommandLineInterface(80);
 
         // register commands
         this.commandRouter = new CommandRouter();
@@ -49,41 +57,51 @@ public class Cue {
             // this should not happen, except during development. in this case, throw an exception to warn the dev.
             throw new RuntimeException(error);
         }
+
+        // initialize current ui
+        this.currentUi = null;
     }
 
-    private void handleInput() throws CueException {
-        String rawInput = cli.getInput();
-        cli.printDivider();
-
-        CommandParser.Result input = CommandParser.parse(rawInput);
+    /**
+     * Attempts to parse a given user input to a command, then executes that
+     * command.
+     *
+     * @param input An input, formatted as a command.
+     * @throws CueException Thrown if the command is unrecognized or invalid.
+     */
+    public void respond(String input) throws CueException {
+        CommandParser.Result parseResult = CommandParser.parse(input);
         commandRouter
-            .route(input.getKeyword())
-            .execute(new CommandContext(taskList, cli, this), input);
+                .route(parseResult.getKeyword())
+                .execute(createCommandContext(), parseResult);
+        TaskStorage.saveToDisk(taskList.getTasks());
     }
 
-    private void run() {
-        this.isRunning = true;
-        cli.greet();
+    public void setCurrentUi(CommandableInterface ui) {
+        this.currentUi = ui;
+    }
 
-        while (this.isRunning) {
-            try {
-                handleInput();
-                TaskStorage.saveToDisk(taskList.getTasks());
-            } catch (CueException error) {
-                System.out.println(error.getMessage());
-            } finally {
-                cli.printDivider();
-            }
+    @Override
+    public void start(Stage stage) {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(Cue.class.getResource("/view/MainWindow.fxml"));
+            AnchorPane ap = fxmlLoader.load();
+            Scene scene = new Scene(ap);
+            stage.setScene(scene);
+            fxmlLoader.<MainWindow>getController().setCue(this);
+            setCurrentUi(fxmlLoader.<MainWindow>getController());
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-
-        cli.cleanup();
     }
 
-    public void stop() {
-        this.isRunning = false;
+    @Override
+    public void stop() throws Exception {
+        super.stop();
     }
 
-    public static void main(String[] args) {
-        new Cue().run();
+    private CommandContext createCommandContext() {
+        return new CommandContext(taskList, currentUi, this);
     }
 }

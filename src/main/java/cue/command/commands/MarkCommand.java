@@ -3,6 +3,7 @@ package cue.command.commands;
 import cue.command.Command;
 import cue.command.CommandContext;
 import cue.errors.CueException;
+import cue.formatter.StringFormatter;
 import cue.parser.CommandParser;
 import cue.tasks.Task;
 
@@ -18,12 +19,15 @@ public class MarkCommand implements Command {
         Task targetTask = context.tasklist.getTask(targetIndex - 1);
         targetTask.setDone(isTaskDone);
 
-        if (isTaskDone) {
-            context.cli.print("Nice! I've marked this task as done:");
-        } else {
-            context.cli.print("OK, I've marked this task as not yet done:");
+        String taskMarkMessage = "Nice! I've marked this task as done:";
+        if (!isTaskDone) {
+            taskMarkMessage = "OK, I've marked this task as not yet done:";
         }
 
-        context.cli.printIndented(targetTask.toString());
+        String output = StringFormatter.joinWithNewlines(
+                taskMarkMessage,
+                StringFormatter.indent(targetTask.toString()));
+
+        context.ui.display(output);
     }
 }

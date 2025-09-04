@@ -4,6 +4,7 @@ import cue.command.Command;
 import cue.command.CommandContext;
 import cue.errors.CueException;
 import cue.errors.UnknownCommandException;
+import cue.formatter.StringFormatter;
 import cue.parser.CommandParser;
 import cue.tasks.Deadline;
 import cue.tasks.Event;
@@ -26,10 +27,12 @@ public class CreateTaskCommand implements Command {
 
         if (newTask != null) {
             context.tasklist.addTask(newTask);
+            String output = StringFormatter.joinWithNewlines(
+                    "Got it. I've added this task:",
+                    StringFormatter.indent(newTask.toString()),
+                    "Now you have " + context.tasklist.getSize() + " tasks in the list");
 
-            context.cli.print("Got it. I've added this task:");
-            context.cli.printIndented(newTask.toString());
-            context.cli.print("Now you have " + context.tasklist.getSize() + " tasks in the list");
+            context.ui.display(output);
         }
     }
 }

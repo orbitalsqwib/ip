@@ -5,6 +5,7 @@ import cue.command.CommandContext;
 import cue.datetime.StringDateTime;
 import cue.errors.CueException;
 import cue.errors.InvalidFormatException;
+import cue.formatter.StringFormatter;
 import cue.parser.CommandParser;
 import cue.tasks.TaskList;
 
@@ -20,11 +21,13 @@ public class SummaryCommand implements Command {
             throw new InvalidFormatException("summary yyyy-MM-dd[@HHmm] ([] denotes an optional section.)");
         }
 
-        System.out.println("Here are the tasks for " + targetDate + ":");
-
         // filter all relevant tasks
         TaskList filteredTasks = context.tasklist.filterActive(targetDate.toLocalDateTime());
 
-        context.cli.printIndented(filteredTasks.toString());
+        String output = StringFormatter.joinWithNewlines(
+                "Here are the tasks for " + targetDate + ":",
+                StringFormatter.indent(filteredTasks.toString()));
+
+        context.ui.display(output);
     }
 }
