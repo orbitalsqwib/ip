@@ -89,6 +89,7 @@ public class Cue extends Application {
             AnchorPane ap = fxmlLoader.load();
             Scene scene = new Scene(ap);
             stage.setScene(scene);
+            stage.setTitle("Cue");
             fxmlLoader.<MainWindow>getController().setCue(this);
             setCurrentUi(fxmlLoader.<MainWindow>getController());
             stage.show();
