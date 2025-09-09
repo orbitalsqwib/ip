@@ -6,6 +6,10 @@ import java.time.format.DateTimeFormatterBuilder;
 import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoField;
 
+/**
+ * Represents a String object that may be upgraded to a LocalDateTime object
+ * given that its contained value is parseable.
+ */
 public class StringDateTime {
     private static final DateTimeFormatter PARSE_FORMAT = new DateTimeFormatterBuilder()
             .appendPattern("yyyy-M-d[@HHmm]")
@@ -22,6 +26,12 @@ public class StringDateTime {
     private LocalDateTime parsedDateTime;
     private String rawDateTime;
 
+    /**
+     * Creates a StringDateTime object containing the rawDateTime, which is
+     * upgraded to a LocalDateTime on a best effort basis.
+     *
+     * @param rawDateTime The datetime value to be stored
+     */
     public StringDateTime(String rawDateTime) {
         this.rawDateTime = rawDateTime;
         this.parsedDateTime = null;
