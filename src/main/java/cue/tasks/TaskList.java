@@ -54,16 +54,10 @@ public class TaskList {
      * @return A TaskList containing all active tasks for the target datetime
      */
     public TaskList filterActive(LocalDateTime targetDateTime) {
-        TaskList filteredTasks = new TaskList();
-
-        // filter all relevant tasks
-        for (int i = 0; i < this.tasks.size(); i++) {
-            if (tasks.get(i).isActiveOn(targetDateTime)) {
-                filteredTasks.addTask(this.tasks.get(i));
-            }
-        }
-
-        return filteredTasks;
+        return new TaskList(
+                tasks.stream().filter(task -> task
+                        .isActiveOn(targetDateTime))
+                        .toArray(len -> new Task[len]));
     }
 
     /**
@@ -73,16 +67,10 @@ public class TaskList {
      * @return A TaskList containing all active tasks for the target datetime
      */
     public TaskList filterNameContains(String searchTerm) {
-        TaskList filteredTasks = new TaskList();
-
-        // filter all relevant tasks
-        for (int i = 0; i < this.tasks.size(); i++) {
-            if (tasks.get(i).nameContains(searchTerm)) {
-                filteredTasks.addTask(this.tasks.get(i));
-            }
-        }
-
-        return filteredTasks;
+        return new TaskList(
+                tasks.stream().filter(task -> task
+                        .nameContains(searchTerm))
+                        .toArray(len -> new Task[len]));
     }
 
     @Override
