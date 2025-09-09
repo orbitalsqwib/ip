@@ -48,20 +48,12 @@ public abstract class TaskStorage {
                     additionalArgs = lineParts[3].split(",");
                 }
 
-                Task newTask = null;
-                switch (lineParts[0].strip()) {
-                case "T":
-                    newTask = new Todo(lineParts[2].strip());
-                    break;
-                case "D":
-                    newTask = new Deadline(lineParts[2].strip(), additionalArgs[0].strip());
-                    break;
-                case "E":
-                    newTask = new Event(lineParts[2].strip(), additionalArgs[0].strip(), additionalArgs[1].strip());
-                    break;
-                default:
-                    break;
-                }
+                Task newTask = switch (lineParts[0].strip()) {
+                case "T" -> new Todo(lineParts[2].strip());
+                case "D" -> new Deadline(lineParts[2].strip(), additionalArgs[0].strip());
+                case "E" -> new Event(lineParts[2].strip(), additionalArgs[0].strip(), additionalArgs[1].strip());
+                default -> null;
+                };
 
                 // parsing succeeded, add to saved tasks
                 if (newTask != null) {
