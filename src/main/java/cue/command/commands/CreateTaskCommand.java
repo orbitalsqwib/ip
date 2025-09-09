@@ -3,7 +3,6 @@ package cue.command.commands;
 import cue.command.Command;
 import cue.command.CommandContext;
 import cue.errors.CueException;
-import cue.errors.UnknownCommandException;
 import cue.formatter.StringFormatter;
 import cue.parser.CommandParser;
 import cue.tasks.Deadline;
@@ -22,17 +21,18 @@ public class CreateTaskCommand implements Command {
         case "todo" -> new Todo(input.getBody());
         case "deadline" -> new Deadline(input.getBody(), input.getTag("by"));
         case "event" -> new Event(input.getBody(), input.getTag("from"), input.getTag("to"));
-        default -> throw new UnknownCommandException();
+        default -> null;
         };
 
-        if (newTask != null) {
-            context.tasklist.addTask(newTask);
-            String output = StringFormatter.joinWithNewlines(
-                    "Got it. I've added this task:",
-                    StringFormatter.indent(newTask.toString()),
-                    "Now you have " + context.tasklist.getSize() + " tasks in the list");
+        // new task should always match one of the cases
+        assert newTask != null;
 
-            context.ui.display(output);
-        }
+        context.tasklist.addTask(newTask);
+        String output = StringFormatter.joinWithNewlines(
+                "Got it. I've added this task:",
+                StringFormatter.indent(newTask.toString()),
+                "Now you have " + context.tasklist.getSize() + " tasks in the list");
+
+        context.ui.display(output);
     }
 }
