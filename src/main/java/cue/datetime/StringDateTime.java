@@ -5,6 +5,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoField;
+import java.time.temporal.ChronoUnit;
 
 /**
  * Represents a String object that may be upgraded to a LocalDateTime object
@@ -54,6 +55,24 @@ public class StringDateTime {
 
     public boolean isEqual(LocalDateTime dateTime) {
         return !this.isPlainString && this.parsedDateTime.isEqual(dateTime);
+    }
+
+    /**
+     * Calculates the number of days between two StringDateTimes
+     *
+     * @param dateTime The target datetime to calculate until.
+     * @return The number of days until the specified datetime from the current date
+     *         stored in this instance. Positive if the current instance is behind
+     *         the target datetime, and vice-versa. Returns null if this is a plain
+     *         string.
+     */
+    public Long daysTill(LocalDateTime dateTime) {
+        if (isPlainString) {
+            return null;
+        }
+
+        double fractionalDaysTill = ChronoUnit.HOURS.between(parsedDateTime, dateTime) / 24d;
+        return Math.round(fractionalDaysTill >= 0 ? Math.ceil(fractionalDaysTill) : Math.floor(fractionalDaysTill));
     }
 
     public String encode() {
