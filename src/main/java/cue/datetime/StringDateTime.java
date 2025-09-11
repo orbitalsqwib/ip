@@ -67,7 +67,12 @@ public class StringDateTime {
      *         string.
      */
     public Long daysTill(LocalDateTime dateTime) {
-        return isPlainString ? null : ChronoUnit.DAYS.between(parsedDateTime, dateTime);
+        if (isPlainString) {
+            return null;
+        }
+
+        double fractionalDaysTill = ChronoUnit.HOURS.between(parsedDateTime, dateTime) / 24d;
+        return Math.round(fractionalDaysTill >= 0 ? Math.ceil(fractionalDaysTill) : Math.floor(fractionalDaysTill));
     }
 
     public String encode() {

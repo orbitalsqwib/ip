@@ -27,7 +27,7 @@ public class Deadline extends Task {
         StringBuilder builder = new StringBuilder("[D] " + super.toString() + " (by: " + deadline + ") help");
         Long daysRemaining = deadline.daysTill(LocalDateTime.now());
         if (daysRemaining != null) {
-            builder.append(daysRemaining < 0 ? " (in " + -1 * daysRemaining + " days)" : " (overdue)");
+            builder.append(daysRemaining <= 0 ? " (in " + -1 * daysRemaining + " day(s))" : " (overdue)");
         }
         return builder.toString();
     }

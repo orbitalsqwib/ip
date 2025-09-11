@@ -30,12 +30,12 @@ public class Event extends Task {
         Long daysToStart = from.daysTill(LocalDateTime.now());
         Long daysToEnd = to.daysTill(LocalDateTime.now());
         if (daysToStart != null && daysToStart < 0) {
-            builder.append(" (in " + -1 * daysToStart + " days)");
+            builder.append(" (in " + -1 * daysToStart + " day(s))");
         } else {
             if (daysToEnd == null) {
                 builder.append(" (started)");
-            } else if (daysToEnd != null && daysToEnd < 0) {
-                builder.append(" (ends in " + -1 * daysToEnd + " days)");
+            } else if (daysToEnd != null && daysToEnd <= 0) {
+                builder.append(" (ends in " + -1 * daysToEnd + " day(s))");
             } else {
                 builder.append(" (ended)");
             }
