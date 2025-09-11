@@ -41,4 +41,9 @@ public class Deadline extends Task {
     public boolean isActiveOn(LocalDateTime dateTime) {
         return deadline.isBefore(dateTime) || deadline.isEqual(dateTime);
     }
+
+    @Override
+    public boolean isDateSensitive() {
+        return deadline.toLocalDateTime() != null;
+    }
 }

@@ -10,6 +10,7 @@ import cue.command.commands.ExitCommand;
 import cue.command.commands.FindCommand;
 import cue.command.commands.ListCommand;
 import cue.command.commands.MarkCommand;
+import cue.command.commands.ReminderCommand;
 import cue.command.commands.SummaryCommand;
 import cue.errors.CueException;
 import cue.errors.KeywordCollisionException;
@@ -54,6 +55,7 @@ public class Cue extends Application {
             commandRouter.register(new DeleteCommand(), new String[]{ "delete" });
             commandRouter.register(new SummaryCommand(), new String[]{ "summary" });
             commandRouter.register(new FindCommand(), new String[] { "find" });
+            commandRouter.register(new ReminderCommand(), new String[] { "reminder" });
         } catch (KeywordCollisionException error) {
             // this should not happen, except during development. in this case, throw an exception to warn the dev.
             throw new RuntimeException(error);
@@ -93,6 +95,13 @@ public class Cue extends Application {
             fxmlLoader.<MainWindow>getController().setCue(this);
             setCurrentUi(fxmlLoader.<MainWindow>getController());
             stage.show();
+
+            // remind user on startup, once cue is ready
+            try {
+                respond("reminder");
+            } catch (CueException error) {
+                // do nothing
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }

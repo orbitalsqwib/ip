@@ -73,6 +73,18 @@ public class TaskList {
                         .toArray(len -> new Task[len]));
     }
 
+    /**
+     * Returns all tasks which are date sensitive
+     *
+     * @return A TaskList containing all date sensitive tasks
+     */
+    public TaskList filterDateSensitive() {
+        return new TaskList(
+                tasks.stream().filter(task -> task
+                        .isDateSensitive())
+                        .toArray(len -> new Task[len]));
+    }
+
     @Override
     public String toString() {
         StringBuilder taskListing = new StringBuilder();

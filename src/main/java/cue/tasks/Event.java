@@ -52,4 +52,9 @@ public class Event extends Task {
     public boolean isActiveOn(LocalDateTime dateTime) {
         return (from.isBefore(dateTime) || from.isEqual(dateTime)) && (to.isAfter(dateTime) || to.isEqual(dateTime));
     }
+
+    @Override
+    public boolean isDateSensitive() {
+        return from.toLocalDateTime() != null;
+    }
 }

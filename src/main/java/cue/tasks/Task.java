@@ -57,6 +57,16 @@ public abstract class Task {
     }
 
     /**
+     * Specifies if the current task is date sensitive. Child classes should
+     * overwrite this as necessary.
+     *
+     * @return Returns true if the event is date sensitive and false otherwise.
+     */
+    public boolean isDateSensitive() {
+        return false;
+    }
+
+    /**
      * Encodes task data (excluding task title and completion status) in a comma-delimited string.
      * @return A string containing specialised data of the associated task, separated by commas.
      */
