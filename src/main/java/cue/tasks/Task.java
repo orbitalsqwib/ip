@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
  * Models a task that can be completed.
  */
 public abstract class Task {
-    private boolean done;
+    private boolean isDone;
     private String taskName;
 
     /**
@@ -16,15 +16,15 @@ public abstract class Task {
      */
     public Task(String taskName) {
         this.taskName = taskName;
-        this.done = false;
+        this.isDone = false;
     }
 
     public void setDone(boolean isDone) {
-        this.done = isDone;
+        this.isDone = isDone;
     }
 
     public boolean isDone() {
-        return this.done;
+        return this.isDone;
     }
 
     public boolean nameContains(String substring) {
@@ -34,7 +34,7 @@ public abstract class Task {
     @Override
     public String toString() {
         char status = ' ';
-        if (this.done) {
+        if (isDone) {
             status = 'x';
         }
 
@@ -48,7 +48,7 @@ public abstract class Task {
      */
     public String encode() {
         String doneStatus;
-        if (this.done) {
+        if (isDone) {
             doneStatus = "1";
         } else {
             doneStatus = "0";
