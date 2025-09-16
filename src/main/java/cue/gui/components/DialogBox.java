@@ -13,6 +13,8 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 
 /**
  * Represents a dialog box consisting of an ImageView to represent the speaker's face
@@ -48,6 +50,11 @@ public class DialogBox extends HBox {
         setAlignment(Pos.TOP_LEFT);
     }
 
+    private void setWeight(FontWeight weight) {
+        Font userFont = dialog.getFont();
+        dialog.setFont(Font.font(userFont.getFamily(), weight, userFont.getSize()));
+    }
+
     public static DialogBox getUserDialog(String text, Image img) {
         return new DialogBox(text, img);
     }
@@ -55,6 +62,7 @@ public class DialogBox extends HBox {
     public static DialogBox getCueDialog(String text, Image img) {
         var db = new DialogBox(text, img);
         db.flip();
+        db.setWeight(FontWeight.BOLD);
         return db;
     }
 }
