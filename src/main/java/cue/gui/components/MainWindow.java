@@ -52,9 +52,10 @@ public class MainWindow extends AnchorPane implements CommandableInterface {
         dialogContainer.getChildren().add(DialogBox.getUserDialog(input, userImage));
         try {
             cue.respond(input);
-            userInput.clear();
         } catch (CueException error) {
             display(error.getMessage());
+        } finally {
+            userInput.clear();
         }
     }
 
