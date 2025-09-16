@@ -7,6 +7,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 
 import cue.errors.MissingSavefileException;
+import cue.storage.errors.SavefileLineParseFailure;
 import cue.tasks.Deadline;
 import cue.tasks.Event;
 import cue.tasks.Task;
@@ -19,50 +20,64 @@ public abstract class TaskStorage {
     private static final Path SAVEFILE_DIR = Paths.get(System.getProperty("user.home"), ".cue_data");
     private static final Path SAVEFILE_PATH = Paths.get(SAVEFILE_DIR.toString(), "savefile.txt");
 
+    private static String[] readSavefileLines(Path savefilePath) throws MissingSavefileException, IOException {
+        // ensure savefile exists
+        if (!Files.exists(savefilePath)) {
+            throw new MissingSavefileException();
+        }
+
+        // read savefile
+        String rawSaveData = Files.readString(SAVEFILE_PATH);
+
+        // get lines from savefile
+        return rawSaveData.split("\n");
+    }
+
+    private static Task parseLineToTask(String line) throws SavefileLineParseFailure {
+        String[] lineParts = line.strip().split("\\|");
+        String[] additionalArgs = null;
+        if (lineParts.length < 3) {
+            return null;
+        } else if (lineParts.length > 3) {
+            additionalArgs = lineParts[3].split(",");
+        }
+
+        Task newTask = switch (lineParts[0].strip()) {
+        case "T" -> new Todo(lineParts[2].strip());
+        case "D" -> new Deadline(lineParts[2].strip(), additionalArgs[0].strip());
+        case "E" -> new Event(lineParts[2].strip(), additionalArgs[0].strip(), additionalArgs[1].strip());
+        default -> throw new SavefileLineParseFailure(line);
+        };
+        assert(newTask != null);
+
+        newTask.setDone(lineParts[1].strip() == "1");
+        return newTask;
+    }
+
     /**
      * Loads a list of tasks from the savefile on disk.
+     *
      * @return A list of tasks retrieved from the savefile on disk.
-     * @throws MissingSavefileException Thrown if no savefile exists on disk at the expected location.
+     * @throws MissingSavefileException Thrown if no savefile exists on disk at the
+     *                                  expected location.
      */
     public static Task[] loadFromDisk() throws MissingSavefileException {
-        ArrayList<Task> savedTasks = new ArrayList<>();
-
+        // attempt to read lines from save file
+        String[] savefileLines = null;
         try {
-            // if savefile doesn't exist, skip
-            if (!Files.exists(SAVEFILE_PATH)) {
-                throw new MissingSavefileException();
-            }
-
-            // read savefile
-            String rawSaveData = Files.readString(SAVEFILE_PATH);
-
-            // parse savefile
-            String[] savefileLines = rawSaveData.split("\n");
-            for (String line : savefileLines) {
-                String[] lineParts = line.strip().split("\\|");
-
-                String[] additionalArgs = null;
-                if (lineParts.length < 3) {
-                    continue;
-                } else if (lineParts.length > 3) {
-                    additionalArgs = lineParts[3].split(",");
-                }
-
-                Task newTask = switch (lineParts[0].strip()) {
-                case "T" -> new Todo(lineParts[2].strip());
-                case "D" -> new Deadline(lineParts[2].strip(), additionalArgs[0].strip());
-                case "E" -> new Event(lineParts[2].strip(), additionalArgs[0].strip(), additionalArgs[1].strip());
-                default -> null;
-                };
-
-                // parsing succeeded, add to saved tasks
-                if (newTask != null) {
-                    newTask.setDone(lineParts[1].strip() == "1");
-                    savedTasks.add(newTask);
-                }
-            }
+            savefileLines = readSavefileLines(SAVEFILE_PATH);
         } catch (MissingSavefileException | IOException error) {
             return new Task[0];
+        }
+
+        // parse lines into saved tasks
+        ArrayList<Task> savedTasks = new ArrayList<>();
+        for (String line : savefileLines) {
+            try {
+                savedTasks.add(parseLineToTask(line));
+            } catch (SavefileLineParseFailure error) {
+                // do nothing
+            }
         }
 
         return savedTasks.toArray(new Task[savedTasks.size()]);

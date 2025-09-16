@@ -86,24 +86,14 @@ public class Cue extends Application {
 
     @Override
     public void start(Stage stage) {
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader(Cue.class.getResource("/view/MainWindow.fxml"));
-            AnchorPane ap = fxmlLoader.load();
-            Scene scene = new Scene(ap);
-            stage.setScene(scene);
-            stage.setTitle("Cue");
-            fxmlLoader.<MainWindow>getController().setCue(this);
-            setCurrentUi(fxmlLoader.<MainWindow>getController());
-            stage.show();
+        // make new window on startup
+        createMainWindow(stage, "Cue");
 
-            // remind user on startup, once cue is ready
-            try {
-                respond("reminder");
-            } catch (CueException error) {
-                // do nothing
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
+        // remind user on startup, once cue is ready
+        try {
+            respond("reminder");
+        } catch (CueException error) {
+            // do nothing
         }
     }
 
@@ -115,5 +105,26 @@ public class Cue extends Application {
 
     private CommandContext createCommandContext() {
         return new CommandContext(taskList, currentUi, this);
+    }
+
+    /**
+     * Creates and initializes a new main window in the specified stage.
+     *
+     * @param stage The stage to create the new window in
+     * @param title The title of the new window
+     */
+    private void createMainWindow(Stage stage, String title) {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(Cue.class.getResource("/view/MainWindow.fxml"));
+            AnchorPane ap = fxmlLoader.load();
+            Scene scene = new Scene(ap);
+            stage.setScene(scene);
+            stage.setTitle(title);
+            fxmlLoader.<MainWindow>getController().setCue(this);
+            setCurrentUi(fxmlLoader.<MainWindow>getController());
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -72,20 +72,23 @@ public class CommandParser {
 
         HashMap<String, String> tags = new HashMap<>();
 
-        if (commandMatcher.group(3) != null) {
-            String[] tagGroups = commandMatcher.group(3).split("/");
+        // if no tags, exit early
+        if (commandMatcher.group(3) == null) {
+            return new Result(keyword, body, tags);
+        }
 
-            for (String tagGroup : tagGroups) {
-                Matcher tagMatcher = TAG_PATTERN.matcher(tagGroup);
+        // parse tag groups
+        String[] tagGroups = commandMatcher.group(3).split("/");
+        for (String tagGroup : tagGroups) {
+            // step through tag groups, parsing as we go
+            Matcher tagMatcher = TAG_PATTERN.matcher(tagGroup);
+            if (!tagMatcher.find()) {
+                continue;
+            }
 
-                if (!tagMatcher.find()) {
-                    continue;
-                }
-
-                if (tagMatcher.group(1) != null && tagMatcher.group(2) != null) {
-                    // trim tag content multi-whitespace input as well
-                    tags.put(tagMatcher.group(1), tagMatcher.group(2).strip());
-                }
+            if (tagMatcher.group(1) != null && tagMatcher.group(2) != null) {
+                // trim tag content multi-whitespace input as well
+                tags.put(tagMatcher.group(1), tagMatcher.group(2).strip());
             }
         }
 
