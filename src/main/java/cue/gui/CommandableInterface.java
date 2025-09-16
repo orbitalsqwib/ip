@@ -6,7 +6,9 @@ package cue.gui;
 public interface CommandableInterface {
 
     /**
-     * Should display the specified output string, whether overwriting or appending to the current display.
+     * Should display the specified output string, whether overwriting or appending
+     * to the current display.
+     *
      * @param output The string to be displayed
      */
     public abstract void display(String output);
