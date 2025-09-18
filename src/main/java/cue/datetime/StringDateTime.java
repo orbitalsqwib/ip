@@ -89,7 +89,7 @@ public class StringDateTime {
             return rawDateTime;
         }
 
-        if (parsedDateTime.getHour() != 0 && parsedDateTime.getMinute() != 0) {
+        if (parsedDateTime.getHour() != 0 || parsedDateTime.getMinute() != 0) {
             return parsedDateTime.format(PRINT_FORMAT_W_TIME);
         }
 
