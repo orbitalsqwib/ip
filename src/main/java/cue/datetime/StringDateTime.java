@@ -90,7 +90,9 @@ public class StringDateTime {
         }
 
         if (parsedDateTime.getHour() != 0 || parsedDateTime.getMinute() != 0) {
-            return parsedDateTime.format(PRINT_FORMAT_W_TIME);
+            return parsedDateTime.format(PRINT_FORMAT_W_TIME)
+                    .replace("AM", "am")
+                    .replace("PM", "pm");
         }
 
         return parsedDateTime.format(PRINT_FORMAT);
