@@ -2,7 +2,7 @@
 
 Cue is a desktop app for organizing tasks, optimized for use via a Comand Line Interface (CLI) while still retaining a Graphical User Interface (GUI). If you can type fast, Cue can track your tasks faster than traditional GUI apps.
 
-![A screenshot of the Cue application](/docs/Ui.png)
+![A screenshot of the Cue application](./Ui.png)
 
 ## Quick Start
 
